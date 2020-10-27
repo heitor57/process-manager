@@ -11,86 +11,86 @@
 #define ARRAYLIST_INITIAL_CAPACITY 100
 #define ARRAYLIST_CAPACITY_DELTA 100
 
-static const size_t object_size = sizeof(Object);
+static const size_t objectSize = sizeof(Object);
 
 
 /*
   structures
 */
 struct Arraylist_Struct {
-  int _current_capacity;
-  Object *_data;
-  int _size;
-  const Boolean (*_equals)(const Object object_1, const Object object_2);
+  int currentCapacity;
+  Object *data;
+  int size;
+  const Boolean (*equals)(const Object object_1, const Object object_2);
 };
 
 
 /*
   private function declarations
 */
-static void *checked_malloc(const size_t size);
+static void *checkedMalloc(const size_t size);
 
 
-void arraylist_free(const Arraylist list)
+void arraylistFree(const Arraylist list)
 {
-  free(list->_data);
+  free(list->data);
   free(list);
 }
 
-Arraylist arraylist_create(const Boolean (*equals)(const Object object_1, const Object object_2))
+Arraylist arraylistCreate(const Boolean (*equals)(const Object object_1, const Object object_2))
 {
   Arraylist list;
 
   list = (struct Arraylist *)malloc(sizeof(struct Arraylist_Struct));
-  list->_current_capacity = ARRAYLIST_INITIAL_CAPACITY;
-  list->_data = (Object *) malloc(object_size * list->_current_capacity);
-  list->_size = 0;
-  list->_equals = equals;
+  list->currentCapacity = ARRAYLIST_INITIAL_CAPACITY;
+  list->data = (Object *) malloc(objectSize * list->currentCapacity);
+  list->size = 0;
+  list->equals = equals;
 
   return list;
 }
 
-Boolean arraylist_add(const Arraylist list, Object object)
+Boolean arraylistAdd(const Arraylist list, Object object)
 {
-  int old_size = arraylist_size(list);
-  int new_capacity;
-  Object *new_data;
+  int oldSize = arraylistSize(list);
+  int newCapacity;
+  Object *newData;
 
-  (list->_size)++;
-  if (old_size == list->_current_capacity)
+  (list->size)++;
+  if (oldSize == list->currentCapacity)
     {
-      new_capacity = list->_current_capacity + ARRAYLIST_CAPACITY_DELTA;
-      new_data = (Object *) malloc(object_size * new_capacity);
-      memcpy(new_data, list->_data, object_size * old_size);
-      free(list->_data);
-      (list->_data) = new_data;
-      list->_current_capacity = new_capacity;
+      newCapacity = list->currentCapacity + ARRAYLIST_CAPACITY_DELTA;
+      newData = (Object *) malloc(objectSize * newCapacity);
+      memcpy(newData, list->data, objectSize * oldSize);
+      free(list->data);
+      (list->data) = newData;
+      list->currentCapacity = newCapacity;
     }
-  (list->_data)[old_size] = object;
+  (list->data)[oldSize] = object;
   return TRUE;
 }
 
-Boolean arraylist_remove(const Arraylist list, const Object object)
+Boolean arraylistRemove(const Arraylist list, const Object object)
 {
-  int length = arraylist_size(list);
-  int last_index = length - 1;
-  int new_size, new_capacity;
+  int length = arraylistSize(list);
+  int lastIndex = length - 1;
+  int newSize, newCapacity;
   int index;
 
   for (index = 0; index < length; index++)
   {
-      if ((*list->_equals)(arraylist_get(list, index), object))
+      if ((*list->equals)(arraylistGet(list, index), object))
 	{
-	  (list->_size)--;
-	  if (index < last_index)
+	  (list->size)--;
+	  if (index < lastIndex)
 	    {
-	      memmove(list->_data + index, list->_data + index + 1, object_size * (last_index - index));
-	      new_size = list->_size;
-	      new_capacity = list->_current_capacity - ARRAYLIST_CAPACITY_DELTA;
-	      if (new_capacity > new_size)
+	      memmove(list->data + index, list->data + index + 1, objectSize * (lastIndex - index));
+	      newSize = list->size;
+	      newCapacity = list->currentCapacity - ARRAYLIST_CAPACITY_DELTA;
+	      if (newCapacity > newSize)
 		{
-		  list->_data = (Object *) realloc(list->_data, object_size * new_capacity);
-		  list->_current_capacity = new_capacity;
+		  list->data = (Object *) realloc(list->data, objectSize * newCapacity);
+		  list->currentCapacity = newCapacity;
 		}
 	    }
 	  return TRUE;
@@ -99,19 +99,19 @@ Boolean arraylist_remove(const Arraylist list, const Object object)
   return FALSE;
 }
 
-Boolean arraylist_contains(const Arraylist list, const Object object)
+Boolean arraylistContains(const Arraylist list, const Object object)
 {
-  return (arraylist_index_of(list, object) > -1);
+  return (arraylistIndexOf(list, object) > -1);
 }
 
-int arraylist_index_of(const Arraylist list, const Object object)
+int arraylistIndexOf(const Arraylist list, const Object object)
 {
-  int length = arraylist_size(list);
+  int length = arraylistSize(list);
   int index;
 
   for (index = 0; index < length; index++)
     {
-      if ((*list->_equals)(arraylist_get(list, index), object))
+      if ((*list->equals)(arraylistGet(list, index), object))
 	{
 	  return index;
 	}
@@ -119,29 +119,29 @@ int arraylist_index_of(const Arraylist list, const Object object)
   return -1;
 }
 
-Boolean arraylist_is_empty(const Arraylist list)
+Boolean arraylistIsEmpty(const Arraylist list)
 {
-  return (0 == arraylist_size(list));
+  return (0 == arraylistSize(list));
 }
 
-int arraylist_size(const Arraylist list)
+int arraylistSize(const Arraylist list)
 {
-  return list->_size;
+  return list->size;
 }
 
-Object arraylist_get(const Arraylist list, const int index)
+Object arraylistGet(const Arraylist list, const int index)
 {
-  return list->_data[index];
+  return list->data[index];
 }
 
-void arraylist_clear(const Arraylist list)
+void arraylistClear(const Arraylist list)
 {
-  list->_data = (Object *)realloc(list->_data, object_size * ARRAYLIST_INITIAL_CAPACITY);
-  list->_current_capacity = ARRAYLIST_INITIAL_CAPACITY;
-  list->_size = 0;
+  list->data = (Object *)realloc(list->data, objectSize * ARRAYLIST_INITIAL_CAPACITY);
+  list->currentCapacity = ARRAYLIST_INITIAL_CAPACITY;
+  list->size = 0;
 }
 
-static void *checked_malloc(const size_t size)
+static void *checkedMalloc(const size_t size)
 {
   void *data;
 
@@ -156,35 +156,35 @@ static void *checked_malloc(const size_t size)
   return data;
 }
 
-Object arraylist_remove_index(const Arraylist list, const int index)
+Object arraylistRemoveIndex(const Arraylist list, const int index)
 {
-  int length = arraylist_size(list);
-  int last_index = length - 1;
-  int new_size, new_capacity;
+  int length = arraylistSize(list);
+  int lastIndex = length - 1;
+  int newSize, newCapacity;
   Object o;
 
-  o = list->_data[index];
+  o = list->data[index];
 
-  (list->_size)--;
-  if (index < last_index)
+  (list->size)--;
+  if (index < lastIndex)
   {
-    memmove(list->_data + index, list->_data + index + 1, object_size * (last_index - index));
-	new_size = list->_size;
-	new_capacity = list->_current_capacity - ARRAYLIST_CAPACITY_DELTA;
-	if (new_capacity > new_size)
+    memmove(list->data + index, list->data + index + 1, objectSize * (lastIndex - index));
+	newSize = list->size;
+	newCapacity = list->currentCapacity - ARRAYLIST_CAPACITY_DELTA;
+	if (newCapacity > newSize)
 	{
-	  list->_data = (Object *)realloc(list->_data, object_size * new_capacity);
-	  list->_current_capacity = new_capacity;
+	  list->data = (Object *)realloc(list->data, objectSize * newCapacity);
+	  list->currentCapacity = newCapacity;
 	}
   }
 
   return o;
 }
 
-void arraylist_sort(const Arraylist list, int (*compare)(const void * object_1, const void * object_2))
+void arraylistSort(const Arraylist list, int (*compare)(const void * object_1, const void * object_2))
 {
-	qsort(list->_data,
-		  arraylist_size(list),
+	qsort(list->data,
+		  arraylistSize(list),
 		  sizeof(Object),
 		  compare);
 }
