@@ -124,6 +124,12 @@ int removeFromEndList(List* li){
     return 1;
 }
 
+Node* getFirstNodeList(List* li){
+  if(li == NULL || li->start == NULL)
+    return 0;
+  return li->start;
+}
+
 int getByIndexList(List* li, int pos, Object o){
     if(li == NULL || li->start == NULL || pos <= 0)
         return 0;
