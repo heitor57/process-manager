@@ -1,4 +1,5 @@
 #include "CPU.h"
+#include "utils.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h> 
@@ -40,48 +41,9 @@ bool needArgInstructionCPU(char instruction){
   }
 }
 
-int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
-  char* token = strtok(instruction, " ");
-  char instruction_type=token[0];
-  ArgumentCPU arg;
-  /* bool is_allowed_instruction = false; */
-  if (strlen(token) != 1 || !isAllowedInstructionCPU(instruction_type)){
-    return 1;
-  }
-  bool need_arg = needArgInstructionCPU(instruction_type);
-  if(!need_arg){
-    if(strlen(instruction)!=1){
-      printf("Instruction in incorrect format\n");
-      return 1;
-    }else{
-      execInstructionCPU(cpu,instruction_type,&arg);
-      return 0;
-    }
-  }else{
-    token = strtok(NULL, " ");
-    if(token[0] != ' ')
-      printf("Missing space between instruction and argument\n");
-      return 1;
-
-    switch(instruction_type){
-    case 'S':
-    case 'A':
-    case 'D':
-    case 'F':
-      arg.integer = strtol(instruction+1,NULL,10);
-      break;
-    case 'R':
-      arg.string = instruction+2;
-      break;
-    }
-    execInstructionCPU(cpu, instruction_type, &arg);
-    return 0;
-  }
-}
-  
-  
-
-void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
+int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
+  int buffer_length = 4096;
+  char buffer[buffer_length];
   switch(instruction_type){
   case 'S':
       cpu->var = arg->integer;
@@ -100,8 +62,47 @@ void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
 
   case 'F':
     break;
-
   case 'R':
+    load_program(arg->string);
     break;
   }
+  return 0;
 }
+int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
+  char* token = strtok(instruction, " ");
+  char instruction_type=token[0];
+  ArgumentCPU arg;
+  /* bool is_allowed_instruction = false; */
+  if (strlen(token) != 1 || !isAllowedInstructionCPU(instruction_type)){
+    return 1;
+  }
+  bool need_arg = needArgInstructionCPU(instruction_type);
+  if(!need_arg){
+    if(strlen(instruction)!=1){
+      printf("Instruction in incorrect format\n");
+      return 1;
+    }else{
+      return execInstructionCPU(cpu,instruction_type,&arg);
+    }
+  }else{
+    token = strtok(NULL, " ");
+    if(token[0] != ' '){
+      printf("Missing space between instruction and argument\n");
+      return 1;
+    }
+
+    switch(instruction_type){
+    case 'S':
+    case 'A':
+    case 'D':
+    case 'F':
+      arg.integer = strtol(instruction+1,NULL,10);
+      break;
+    case 'R':
+      arg.string = instruction+2;
+      break;
+    }
+    return execInstructionCPU(cpu, instruction_type, &arg);
+  }
+}
+  

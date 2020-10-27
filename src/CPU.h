@@ -12,7 +12,7 @@ typedef union {
 }ArgumentCPU;
 CPU* initCPU();
 void freeCPU(CPU* cpu);
-void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg);
+/* void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg); */
 /* void parseInstruction(); */
 /* execInstruction(int id) */
 /* int updateVar(int new_value) */

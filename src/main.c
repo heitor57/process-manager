@@ -7,6 +7,8 @@
 #include <sys/wait.h>
 #include "Process.h"
 #include "ProcessManager.h"
+#include "List.h"
+
 int main(void){
   int fd[2];
   int childpid;
@@ -14,7 +16,7 @@ int main(void){
   FILE* init_file;
   int nbytes;
   ProcessManager pm;
-  /* pipe(fd); */
+  pipe(fd);
   if(pipe(fd) < 0) {
     perror("pipe");
     exit(1);
@@ -64,7 +66,7 @@ int main(void){
     while(1){
       // commander
       fgets(readbuffer,sizeof(readbuffer),stdin);
-      readbuffer[strcspn(readbuffer, "\n")] = 0;
+      readbuffer[strlen(readbuffer)-1] = 0;
       /* printf("\nENVIANDO: %s\n",readbuffer); */
       write(fd[1], readbuffer, strlen(readbuffer)+1);
       sleep(1.0);

@@ -11,20 +11,21 @@ struct node {
 };
 typedef struct node Node;
 
-
 struct descriptor {
     struct node *start;
     struct node *end;
     int qty;
+  bool (*equals)(const Object object_1, const Object object_2);
 };
 
 
-List* createList(){
+List* createList(bool (*equals)(const Object object_1, const Object object_2)){
     List* li = (List*) malloc(sizeof(List));
     if(li != NULL){
         li->start = NULL;
         li->end = NULL;
         li->qty = 0;
+        li->equals = equals;
     }
     return li;
 }
@@ -59,7 +60,7 @@ int emptyList(List* li){
     return 0;
 }
 
-int insertAtStart(List* li, Object o){
+int insertAtStartList(List* li, Object o){
     if(li == NULL)
         return 0;
     Node* node;
@@ -75,7 +76,7 @@ int insertAtStart(List* li, Object o){
     return 1;
 }
 
-int insertAtEnd(List* li, Object o){
+int insertAtEndList(List* li, Object o){
     if(li == NULL)
         return 0;
     Node *node;
@@ -95,7 +96,7 @@ int insertAtEnd(List* li, Object o){
 }
 
 
-int removeFromStart(List* li){
+int removeFromStartList(List* li){
     if(li == NULL)
         return 0;
     if(li->start == NULL)//empty list
@@ -110,7 +111,7 @@ int removeFromStart(List* li){
     return 1;
 }
 
-int removeFromEnd(List* li){
+int removeFromEndList(List* li){
     if(li == NULL)
         return 0;
     if(li->start == NULL)//empty list
@@ -133,7 +134,7 @@ int removeFromEnd(List* li){
     return 1;
 }
 
-int getByIndex(List* li, int pos, Object *o){
+int getByIndexList(List* li, int pos, Object o){
     if(li == NULL || li->start == NULL || pos <= 0)
         return 0;
     Node *node = li->start; //first node
@@ -145,10 +146,28 @@ int getByIndex(List* li, int pos, Object *o){
     if(node == NULL)
         return 0;
     else{
-        *o = node->object;
+        o = node->object;
         return 1;
     }
 }
+
+int getObjectList(List* li, Object o){
+    if(li == NULL || li->start == NULL)
+        return -1;
+    Node *node = li->start; //first node
+    int i = 0;
+    while(node != NULL){
+        if(li->equals(o,node->object)){
+          return i;
+        }
+        node = node->next;
+        i++;
+    }
+    return -1;
+}
+
+
+
 
 // int getByPid(List* li, int pid, Object *o){
 //     if(li == NULL || li->start == NULL)
