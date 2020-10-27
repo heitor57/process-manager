@@ -10,7 +10,7 @@ char** load_program(char *file_name){
   char buffer[buffer_length];
   FILE* program_file = fopen(file_name,"r");
 
-  List program = createList(NULL);
+  List* program = createList();
   char *aux;
   if(program_file==NULL){
     printf("Error opening file\n");

@@ -3,6 +3,7 @@
 #include "CPU.h"
 #include "Process.h"
 #include "List.h"
+
 typedef struct{
   CPU *cpu;
   Process *executing_process;

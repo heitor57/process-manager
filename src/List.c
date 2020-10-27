@@ -2,23 +2,6 @@
 #include <stdlib.h>
 #include "List.h"
 
-#undef Object
-#define Object void*
-
-struct node {
-    Object object;
-    struct node *next;
-};
-typedef struct node Node;
-
-struct descriptor {
-    struct node *start;
-    struct node *end;
-    int qty;
-  bool (*equals)(const Object object_1, const Object object_2);
-};
-
-
 List* createList(bool (*equals)(const Object object_1, const Object object_2)){
     List* li = (List*) malloc(sizeof(List));
     if(li != NULL){
