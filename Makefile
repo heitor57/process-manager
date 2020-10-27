@@ -1,13 +1,13 @@
 # credits to https://github.com/mbcrawfo/GenericMakefile the author
 #### PROJECT SETTINGS ####
 # The name of the executable to be created
-BIN_NAME := hello
+BIN_NAME := process-manager
 # Compiler used
 CC ?= gcc
 # Extension of source files used in the project
 SRC_EXT = c
 # Path to the source directory, relative to the makefile
-SRC_PATH = .
+SRC_PATH = src
 # Space-separated pkg-config libraries used by this project
 LIBS =
 # General compiler flags
