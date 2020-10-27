@@ -1,8 +1,14 @@
+#ifndef PROCESSMANAGER_H
+#define PROCESSMANAGER_H
+#include "CPU.h"
+#include "Process.h"
+#include "arraylist.h"
 typedef struct{
   CPU *cpu;
   Process *executing_process;
-  ArrayList ready_processes;
-  ArrayList pcb_table;
+  Arraylist ready_processes;
+  Arraylist pcb_table;
   FIFO blocked_processes;
-  int (*schedulingPolicy)(ArrayList *, Process *);
+  int (*schedulingPolicy)(Arraylist *, Process *);
 }ProcessManager;
+#endif

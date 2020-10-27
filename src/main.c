@@ -6,12 +6,14 @@
 #include <string.h>
 #include <sys/wait.h>
 #include "Process.h"
+#include "ProcessManager.h"
 int main(void){
   int fd[2];
   int childpid;
   char readbuffer[80];
   FILE* init_file;
   int nbytes;
+  ProcessManager pm;
   /* pipe(fd); */
   if(pipe(fd) < 0) {
     perror("pipe");

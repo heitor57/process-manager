@@ -40,80 +40,65 @@ bool needArgInstructionCPU(char instruction){
   }
 }
 
-/* void parseAndExecInstruction(char *instruction){ */
-/*   char* token = strtok(instruction, " "); */
-/*   char operator=token[0]; */
-/*   /\* bool is_allowed_instruction = false; *\/ */
-/*   if (strlen(token) != 1 || !isAllowedInstructionCPU(operator)){ */
-/*     return 1; */
-/*   } */
-/*   bool need_arg = needArgInstructionCPU(operator); */
-/*   if(!need_arg){ */
-/*     if(strlen(instruction)!=1){ */
-/*       printf("Instruction in incorrect format\n"); */
-/*       return 1; */
-/*     }else{ */
-/*       // TODO */
-/*       return 0; */
-/*     } */
-/*   } */
-
-/*   if(need_arg){ */
-/*     /\* token = strtok(NULL, " "); *\/ */
-/*     /\* char *arg = token; *\/ */
-/*     // TODO */
-/*     switch(operator){ */
-/*     case "S": */
-/*     case "A": */
-/*     case "D": */
-/*     case "F": */
-/*       int arg = strol(instruction+1,NULL,10); */
-/*       break; */
-/*     case "R": */
-/*       char* arg = instruction+2; */
-/*       break; */
-/*     } */
-/*   } */
+int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
+  char* token = strtok(instruction, " ");
+  char instruction_type=token[0];
+  ArgumentCPU arg;
+  /* bool is_allowed_instruction = false; */
+  if (strlen(token) != 1 || !isAllowedInstructionCPU(instruction_type)){
+    return 1;
+  }
+  bool need_arg = needArgInstructionCPU(instruction_type);
+  if(!need_arg){
+    if(strlen(instruction)!=1){
+      printf("Instruction in incorrect format\n");
+      return 1;
+    }else{
+      execInstructionCPU(cpu,instruction_type,&arg);
+      return 0;
+    }
+  }
+  if(need_arg){
+    switch(instruction_type){
+    case 'S':
+    case 'A':
+    case 'D':
+    case 'F':
+      arg.integer = strtol(instruction+1,NULL,10);
+      break;
+    case 'R':
+      arg.string = instruction+2;
+      break;
+    }
+    execInstructionCPU(cpu, instruction_type, &arg);
+  }
+  return 0;
+}
   
   
-  /* for(int i=0; i<strlen(NEED_ARG_INSTRUCTIONS) ;i++){ */
-  /*   if(token[0] == NEED_ARG_INSTRUCTIONS[i]){ */
-  /*     return 1; */
-  /*   } */
-  /* } */
-  
-  /* token = strtok(NULL, " "); */
-  /* switch(operator){ */
-    
-  /* } */
-  /* int i=0; */
-  /* while( token != NULL ) { */
-  /*   token = strtok(NULL, " "); */
-  /*   i++; */
-  /* } */
-/* } */
 
-/* void execInstructionCPU(CPU* cpu,char instruction,void *arg){ */
-/*   switch(instruction){ */
-/*   case 'S': */
-/*     cpu->var += 1; */
-/*     break; */
-/*   case 'A': */
-/*     break; */
+void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
+  switch(instruction_type){
+  case 'S':
+      cpu->var = arg->integer;
+    break;
+  case 'A':
+      cpu->var += arg->integer;
+    break;
 
-/*   case 'D': */
-/*     break; */
+  case 'D':
+      cpu->var -= arg->integer;
+    break;
+  case 'B':
+    break;
 
-/*   case 'B': */
-/*     break; */
+  case 'E':
+    break;
 
-/*   case 'E': */
-/*     break; */
+  case 'F':
+    break;
 
-/*   case 'F': */
-/*     break; */
-
-/*   case 'R': */
-/*     break; */
-/*   } */
-/* } */
+  case 'R':
+    break;
+  }
+}
