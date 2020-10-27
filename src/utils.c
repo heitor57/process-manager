@@ -1,10 +1,12 @@
 #include "utils.h"
+#include "List.h"
+
 List* load_program(char *file_name){
   int buffer_length =  4096;
   char buffer[buffer_length];
   FILE* program_file = fopen(file_name,"r");
 
-  List* program = createList();
+  List* program = createList(TypesListProcess,NULL);
   char *aux;
   if(program_file==NULL){
     printf("Error opening file\n");
