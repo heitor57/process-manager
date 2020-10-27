@@ -41,7 +41,7 @@ Arraylist arraylist_create(const Boolean (*equals)(const Object object_1, const 
 {
   Arraylist list;
 
-  list = (Arraylist_Struct *)malloc(sizeof(struct Arraylist_Struct));
+  list = (struct Arraylist *)malloc(sizeof(struct Arraylist_Struct));
   list->_current_capacity = ARRAYLIST_INITIAL_CAPACITY;
   list->_data = (Object *) malloc(object_size * list->_current_capacity);
   list->_size = 0;

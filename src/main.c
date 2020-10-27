@@ -48,12 +48,16 @@ int main(void){
         /* printf("%s is a invalid instruction\n",readbuffer); */
         switch(readbuffer[0]){
         case 'Q':
+          // Execute one instruction in CPU
           break;
         case 'U':
+          // unblock first process
           break;
         case 'P':
+          // print state
           break;
         case 'T':
+          // print mean return time
           break;
         default:
           printf("%s is a invalid instruction\n",readbuffer);
