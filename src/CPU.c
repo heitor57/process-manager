@@ -40,37 +40,40 @@ bool needArgInstructionCPU(char instruction){
   }
 }
 
-void parseAndExecInstruction(char *instruction){
-  char* token = strtok(instruction, " ");
-  char operator=token[0];
-  /* bool is_allowed_instruction = false; */
-  if (strlen(token) != 1 || !isAllowedInstructionCPU(operator)){
-    return 1;
-  }
-  bool need_arg = needArgInstructionCPU(operator);
-  if(!need_arg){
-    if(strlen(instruction)!=1){
-      printf("Instruction in incorrect format\n");
-      return 1;
-    }else{
-      // TODO
-      return 0;
-    }
-  }
+/* void parseAndExecInstruction(char *instruction){ */
+/*   char* token = strtok(instruction, " "); */
+/*   char operator=token[0]; */
+/*   /\* bool is_allowed_instruction = false; *\/ */
+/*   if (strlen(token) != 1 || !isAllowedInstructionCPU(operator)){ */
+/*     return 1; */
+/*   } */
+/*   bool need_arg = needArgInstructionCPU(operator); */
+/*   if(!need_arg){ */
+/*     if(strlen(instruction)!=1){ */
+/*       printf("Instruction in incorrect format\n"); */
+/*       return 1; */
+/*     }else{ */
+/*       // TODO */
+/*       return 0; */
+/*     } */
+/*   } */
 
-  if(need_arg){
-    token = strtok(NULL, " ");
-    // TODO
-    switch(operator){
-    case "S":
-    case "A":
-    case "D":
-    case "F":
-      break;
-    case "R":
-      break;
-    }
-  }
+/*   if(need_arg){ */
+/*     /\* token = strtok(NULL, " "); *\/ */
+/*     /\* char *arg = token; *\/ */
+/*     // TODO */
+/*     switch(operator){ */
+/*     case "S": */
+/*     case "A": */
+/*     case "D": */
+/*     case "F": */
+/*       int arg = strol(instruction+1,NULL,10); */
+/*       break; */
+/*     case "R": */
+/*       char* arg = instruction+2; */
+/*       break; */
+/*     } */
+/*   } */
   
   
   /* for(int i=0; i<strlen(NEED_ARG_INSTRUCTIONS) ;i++){ */
@@ -88,7 +91,7 @@ void parseAndExecInstruction(char *instruction){
   /*   token = strtok(NULL, " "); */
   /*   i++; */
   /* } */
-}
+/* } */
 
 /* void execInstructionCPU(CPU* cpu,char instruction,void *arg){ */
 /*   switch(instruction){ */
