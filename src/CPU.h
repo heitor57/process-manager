@@ -1,9 +1,8 @@
-typedef struct CPU CPU;
-struct CPU{
+typedef struct{
   int var, pc;
   ArrayList program;
   float time_slice, used_time;
-};
+}CPU;
 /* initCPU */
 /* parseInstruction */
 /* execInstruction(int id) */
