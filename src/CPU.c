@@ -57,8 +57,12 @@ int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
       execInstructionCPU(cpu,instruction_type,&arg);
       return 0;
     }
-  }
-  if(need_arg){
+  }else{
+    token = strtok(NULL, " ");
+    if(token[0] != ' ')
+      printf("Missing space between instruction and argument\n");
+      return 1;
+
     switch(instruction_type){
     case 'S':
     case 'A':
@@ -71,8 +75,8 @@ int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
       break;
     }
     execInstructionCPU(cpu, instruction_type, &arg);
+    return 0;
   }
-  return 0;
 }
   
   
@@ -85,7 +89,6 @@ void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
   case 'A':
       cpu->var += arg->integer;
     break;
-
   case 'D':
       cpu->var -= arg->integer;
     break;
