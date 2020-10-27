@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "List.h"
+#include "Process.h"
 
 List* createList(bool (*equals)(const Object object_1, const Object object_2)){
     List* li = (List*) malloc(sizeof(List));
@@ -13,12 +14,17 @@ List* createList(bool (*equals)(const Object object_1, const Object object_2)){
     return li;
 }
 
-void freeList(List* li){
+void freeList(List* li, TypesList type){
     if(li != NULL){
         Node* node;
         while((li->start) != NULL){
             node = li->start;
             li->start = li->start->next;
+            switch(type){
+            case TypesListProcess:
+              free(((Process*)node->object));
+              break;
+            }
             free(node);
         }
         free(li);

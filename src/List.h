@@ -7,6 +7,7 @@
 #define Object void*
 /* typedef void* Object; */
 
+typedef enum {TypesListProcess=314} TypesList;
 struct node {
     Object object;
     struct node *next;
@@ -23,7 +24,7 @@ typedef struct descriptor List;
 
 
 List* createList();
-void freeList(List* li);
+void freeList(List* li, TypesList type);
 int insertAtEndList(List* li, Object o);
 int insertAtStartList(List* li, Object o);
 int removeFromStartList(List* li);

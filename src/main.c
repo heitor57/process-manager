@@ -8,6 +8,7 @@
 #include "Process.h"
 #include "ProcessManager.h"
 #include "List.h"
+#include "utils.h"
 
 int main(void){
   int fd[2];
@@ -31,10 +32,11 @@ int main(void){
     close(fd[1]);
     dup2(fd[0],STDIN_FILENO);
     printf("Initializating process manager\n");
-    init_file=fopen("init","r");
-    if(init_file == NULL){
-      printf("Failed to start init file, it could be missing, check it out!\n");
-    }
+    /* init_file=fopen("init","r"); */
+    /* if(init_file == NULL){ */
+    /*   printf("Failed to start init file, it could be missing, check it out!\n"); */
+    /* } */
+    /* = load_program("init"); */
     while(strcmp(readbuffer,"q")){
       nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
       /* printf("%s",readbuffer); */
