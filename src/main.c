@@ -10,6 +10,7 @@ int main(void){
   int fd[2];
   int childpid;
   char readbuffer[80];
+  FILE* init_file;
   int nbytes;
   /* pipe(fd); */
   if(pipe(fd) < 0) {
@@ -25,6 +26,11 @@ int main(void){
     // process manager
     close(fd[1]);
     dup2(fd[0],STDIN_FILENO);
+    printf("Initializating process manager\n");
+    init_file=fopen("init","r");
+    if(init_file == NULL){
+      printf("Failed to start init file, it could be missing, check it out!\n");
+    }
     while(strcmp(readbuffer,"q")){
       nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
       /* printf("%s",readbuffer); */
@@ -49,6 +55,7 @@ int main(void){
         printf("%s is a invalid instruction, pass in the correct format\n",readbuffer);
       }
     }
+    fclose(init_file);
     close(fd[0]);
   }else{
     close(fd[0]);
