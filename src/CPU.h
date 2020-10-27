@@ -1,10 +1,11 @@
 typedef struct{
-  int var, pc;
-  ArrayList program;
+  int *var, *pc;
+  char** program;
   float time_slice, used_time;
 }CPU;
-/* initCPU */
-/* parseInstruction */
+CPU* initCPU();
+void freeCPU(CPU* cpu);
+/* void parseInstruction(); */
 /* execInstruction(int id) */
 /* int updateVar(int new_value) */
 
@@ -20,9 +21,8 @@ typedef struct{
 /* requestFork */
 /* requestProcessSwitch(){ */
 /* } */
-/* void freeCPU(CPU cpu){ */
 
-/* } */
+
 
 /* void sjf(ArrayList process_ready){ */
 

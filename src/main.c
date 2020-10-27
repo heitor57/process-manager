@@ -5,6 +5,7 @@
 #include <time.h>
 #include <string.h>
 #include <sys/wait.h>
+#include "Process.h"
 int main(void){
   int fd[2];
   int childpid;
