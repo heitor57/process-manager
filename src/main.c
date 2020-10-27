@@ -32,6 +32,7 @@ int main(void){
     close(fd[1]);
     dup2(fd[0],STDIN_FILENO);
     printf("Initializating process manager\n");
+    
     /* init_file=fopen("init","r"); */
     /* if(init_file == NULL){ */
     /*   printf("Failed to start init file, it could be missing, check it out!\n"); */
