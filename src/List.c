@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linkedList.h"
+#include "List.h"
+
+#undef Object
+#define Object void*
 
 struct node {
-    struct process process;
+    Object object;
     struct node *next;
 };
 typedef struct node Node;
@@ -56,14 +59,14 @@ int emptyList(List* li){
     return 0;
 }
 
-int insertAtStart(List* li, struct process p){
+int insertAtStart(List* li, Object o){
     if(li == NULL)
         return 0;
     Node* node;
     node = (Node*) malloc(sizeof(Node));
     if(node == NULL)
         return 0;
-    node->process = p;
+    node->object = o;
     node->next = li->start;
     if(li->start == NULL)
         li->end = node;
@@ -72,14 +75,14 @@ int insertAtStart(List* li, struct process p){
     return 1;
 }
 
-int insertAtEnd(List* li, struct process p){
+int insertAtEnd(List* li, Object o){
     if(li == NULL)
         return 0;
     Node *node;
     node = (Node*) malloc(sizeof(Node));
     if(node == NULL)
         return 0;
-    node->process = p;
+    node->object = o;
     node->next = NULL;
     if(li->start == NULL)//empty list: insert at start
         li->start = node;
@@ -129,8 +132,8 @@ int removeFromEnd(List* li){
     li->qty--;
     return 1;
 }
-//=================================================
-int getByIndex(List* li, int pos, struct process *p){
+
+int getByIndex(List* li, int pos, Object *o){
     if(li == NULL || li->start == NULL || pos <= 0)
         return 0;
     Node *node = li->start; //first node
@@ -142,31 +145,31 @@ int getByIndex(List* li, int pos, struct process *p){
     if(node == NULL)
         return 0;
     else{
-        *p = node->process;
+        *o = node->object;
         return 1;
     }
 }
 
-int getByPid(List* li, int pid, struct process *p){
-    if(li == NULL || li->start == NULL)
-        return 0;
-    Node *node = li->start;
-    while(node != NULL && node->process.pid != pid)
-        node = node->next;
-    if(node->process.pid != pid)
-        return 0;
-    else{
-        *p = node->process;
-        return 1;
-    }
-}
+// int getByPid(List* li, int pid, Object *o){
+//     if(li == NULL || li->start == NULL)
+//         return 0;
+//     Node *node = li->start;
+//     while(node != NULL && node->object.pid != pid)
+//         node = node->next;
+//     if(node->object.pid != pid)
+//         return 0;
+//     else{
+//         *p = node->object;
+//         return 1;
+//     }
+// }
 
-void printList(List* li){
-    if(li == NULL || li->start == NULL)
-        return;
-    Node* node = li->start;
-    while(node != NULL){
-        printf("pid: %d\n",node->process.pid);
-        node = node->next;
-    }
-}
+// void printList(List* li){
+//     if(li == NULL || li->start == NULL)
+//         return;
+//     Node* node = li->start;
+//     while(node != NULL){
+//         printf("pid: %d\n",node->object.pid);
+//         node = node->next;
+//     }
+// }
