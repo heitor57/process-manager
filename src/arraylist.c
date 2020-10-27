@@ -11,7 +11,7 @@
 #define ARRAYLIST_INITIAL_CAPACITY 100
 #define ARRAYLIST_CAPACITY_DELTA 100
 
-static const size_t objectSize = sizeof(Object);
+static const sizeT objectSize = sizeof(Object);
 
 
 /*
@@ -28,7 +28,7 @@ struct Arraylist_Struct {
 /*
   private function declarations
 */
-static void *checkedMalloc(const size_t size);
+static void *checkedMalloc(const sizeT size);
 
 
 void arraylistFree(const Arraylist list)
@@ -141,7 +141,7 @@ void arraylistClear(const Arraylist list)
   list->size = 0;
 }
 
-static void *checkedMalloc(const size_t size)
+static void *checkedMalloc(const sizeT size)
 {
   void *data;
 
