@@ -2,21 +2,21 @@
 #include <stdlib.h>
 #include "linkedList.h"
 
-struct node{
+struct node {
     struct process process;
     struct node *next;
 };
 typedef struct node Node;
 
 
-struct descriptor{
+struct descriptor {
     struct node *start;
     struct node *end;
     int qty;
 };
 
 
-List* create_list(){
+List* createList(){
     List* li = (List*) malloc(sizeof(List));
     if(li != NULL){
         li->start = NULL;
@@ -26,7 +26,7 @@ List* create_list(){
     return li;
 }
 
-void free_list(List* li){
+void freeList(List* li){
     if(li != NULL){
         Node* node;
         while((li->start) != NULL){
@@ -38,17 +38,17 @@ void free_list(List* li){
     }
 }
 
-int size_list(List* li){
+int sizeList(List* li){
     if(li == NULL)
         return 0;
     return li->qty;
 }
 
-int full_list(List* li){
+int fullList(List* li){
     return 0;
 }
 
-int empty_list(List* li){
+int emptyList(List* li){
     if(li == NULL)
         return 1;
     if(li->start == NULL)
@@ -56,7 +56,7 @@ int empty_list(List* li){
     return 0;
 }
 
-int insert_start(List* li, struct process p){
+int insertAtStart(List* li, struct process p){
     if(li == NULL)
         return 0;
     Node* node;
@@ -72,7 +72,7 @@ int insert_start(List* li, struct process p){
     return 1;
 }
 
-int insert_end(List* li, struct process p){
+int insertAtEnd(List* li, struct process p){
     if(li == NULL)
         return 0;
     Node *node;
@@ -92,7 +92,7 @@ int insert_end(List* li, struct process p){
 }
 
 
-int remove_start(List* li){
+int removeFromStart(List* li){
     if(li == NULL)
         return 0;
     if(li->start == NULL)//empty list
@@ -107,7 +107,7 @@ int remove_start(List* li){
     return 1;
 }
 
-int remove_end(List* li){
+int removeFromEnd(List* li){
     if(li == NULL)
         return 0;
     if(li->start == NULL)//empty list
@@ -130,7 +130,7 @@ int remove_end(List* li){
     return 1;
 }
 //=================================================
-int get_by_index(List* li, int pos, struct process *p){
+int getByIndex(List* li, int pos, struct process *p){
     if(li == NULL || li->start == NULL || pos <= 0)
         return 0;
     Node *node = li->start; //first node
@@ -147,7 +147,7 @@ int get_by_index(List* li, int pos, struct process *p){
     }
 }
 
-int get_by_pid(List* li, int pid, struct process *p){
+int getByPid(List* li, int pid, struct process *p){
     if(li == NULL || li->start == NULL)
         return 0;
     Node *node = li->start;
@@ -161,7 +161,7 @@ int get_by_pid(List* li, int pid, struct process *p){
     }
 }
 
-void print_list(List* li){
+void printList(List* li){
     if(li == NULL || li->start == NULL)
         return;
     Node* node = li->start;
