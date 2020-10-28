@@ -6,4 +6,5 @@
 #include <stdlib.h>
 
 List* load_program(char *file_name);
+int unblockProcess(blocked_processes, ready_processes);
 #endif

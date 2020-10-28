@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "List.h"
+#include "Process.h";
 
 List* load_program(char *file_name){
   int buffer_length =  4096;
@@ -21,4 +22,12 @@ List* load_program(char *file_name){
   }
   fclose(program_file);
   /* return program; */
+}
+
+int unblockProcess(blocked_processes, ready_processes) {
+  Node *node = getFirstNodeList(blocked_processes);
+  Process* process = node->object;
+  process->state = Ready;
+  insertAtEndList(ready_processes, process);
+  removeFromStartList(blocked_processes);
 }
