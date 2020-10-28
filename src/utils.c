@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "List.h"
-#include "Process.h";
+#include "Process.h"
+#include "ArrayList.h"
 
 ArrayList load_program(char *file_name){
   int buffer_length =  4096;

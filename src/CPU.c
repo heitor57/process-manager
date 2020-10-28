@@ -1,5 +1,6 @@
 #include "CPU.h"
 #include "utils.h"
+#include "ArrayList.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h> 
@@ -109,7 +110,8 @@ int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
 }
 
 int searchDecodeRunCPU(CPU *cpu){
-  char instruction = cpu->program[cpu->pc];
+  char* instruction;
+  getArrayList(cpu->program,cpu->pc);
   parseAndExecInstructionCPU(cpu,instruction);
   cpu->pc++;
 }
