@@ -1,8 +1,9 @@
 #ifndef CPU_H
 #define CPU_H
+#include "ArrayList.h"
 typedef struct{
   int var, pc;
-  char** program;
+  ArrayList program;
   float time_slice, used_time;
 }CPU;
 
