@@ -15,7 +15,6 @@ int main(void){
   char readbuffer[80];
   FILE* init_file;
   int nbytes;
-  ProcessManager pm;
   pipe(fd);
   if(pipe(fd) < 0) {
     perror("pipe");
@@ -31,7 +30,7 @@ int main(void){
     close(fd[1]);
     dup2(fd[0],STDIN_FILENO);
     printf("Initializating process manager\n");
-    
+    ProcessManager* pm = initProcessManager();
     /* init_file=fopen("init","r"); */
     /* if(init_file == NULL){ */
     /*   printf("Failed to start init file, it could be missing, check it out!\n"); */
@@ -66,6 +65,7 @@ int main(void){
         printf("%s is a invalid instruction, pass in the correct format\n",readbuffer);
       }
     }
+    freeProcessManager(pm);
     fclose(init_file);
     close(fd[0]);
   }else{
