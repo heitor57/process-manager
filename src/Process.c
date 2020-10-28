@@ -5,6 +5,7 @@ Process* initProcess(){
   Process* p = malloc(sizeof(Process));
   p->cpu_usage=0;
   p->state=Ready;
+  p->cpu_usage=0;
   time(&p->init_time);
   if (p==NULL){
     exit(1);
