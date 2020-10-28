@@ -33,6 +33,6 @@ void printProcessList(List* process_list) {
         printf("%d\t%d\t%d\t%d\t%f\t%f\n", process.id, process.parent_id, 
                                         process.priority, process.var, 
                                         process.init_time, process.cpu_usage);
+        node = node->next;
     }
-    node = node->next;
 }
