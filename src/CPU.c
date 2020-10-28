@@ -6,11 +6,13 @@
 #include <stdio.h> 
 
 CPU* initCPU(){
-  return malloc(sizeof(CPU));
+  CPU* cpu = malloc(sizeof(CPU));
+  return cpu;
 }
 
 void freeCPU(CPU* cpu){
-  free(cpu);
+  if(cpu!=NULL)
+    free(cpu);
 }
 bool isAllowedInstructionCPU(char instruction){
   switch(instruction){
@@ -107,10 +109,8 @@ int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
 }
 
 int searchDecodeRunCPU(CPU *cpu){
-  
   char instruction = cpu->program[cpu->pc];
-  cpu->pc++;
   parseAndExecInstructionCPU(cpu,instruction);
-  
+  cpu->pc++;
 }
   
