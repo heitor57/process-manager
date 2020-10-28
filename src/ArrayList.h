@@ -28,24 +28,24 @@
 #undef Object
 #define Object void*
 
-typedef struct Arraylist_Struct *Arraylist;
+typedef struct ArrayList_Struct *ArrayList;
 
 
 /*
   function declarations
 */
-void freeArrayList(const Arraylist list);
-Arraylist createArrayList(const Boolean (*equals)(const Object object_1, const Object object_2));
-Boolean addArrayList(const Arraylist list, Object object);
-Boolean removeArrayList(const Arraylist list, const Object object);
-Object removeIndexArrayList(const Arraylist list, const int index);
-Boolean containsArrayList(const Arraylist list, const Object object);
-int indexOfArrayList(const Arraylist list, const Object object);
-Boolean isEmptyArrayList(const Arraylist list);
-int sizeArrayList(const Arraylist list);
-Object getArrayList(const Arraylist list, const int index);
-void clearArrayList(const Arraylist list);
-void sortArrayList(const Arraylist list, int (*compare)(const void * object_1, const void * object_2));
+void freeArrayList(const ArrayList list);
+ArrayList createArrayList(const Boolean (*equals)(const Object object_1, const Object object_2));
+Boolean addArrayList(const ArrayList list, Object object);
+Boolean removeArrayList(const ArrayList list, const Object object);
+Object removeIndexArrayList(const ArrayList list, const int index);
+Boolean containsArrayList(const ArrayList list, const Object object);
+int indexOfArrayList(const ArrayList list, const Object object);
+Boolean isEmptyArrayList(const ArrayList list);
+int sizeArrayList(const ArrayList list);
+Object getArrayList(const ArrayList list, const int index);
+void clearArrayList(const ArrayList list);
+void sortArrayList(const ArrayList list, int (*compare)(const void * object_1, const void * object_2));
 
 
 #endif /* __defined_arraylist_h */
