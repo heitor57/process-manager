@@ -105,4 +105,8 @@ int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
     return execInstructionCPU(cpu, instruction_type, &arg);
   }
 }
+
+int searchDecodeRunCPU(CPU *cpu){
+  
+}
   

@@ -22,3 +22,8 @@ void freeProcessManager(ProcessManager* pm){
     perror("Error in free Process Manager");
 }
 
+void stepTimeProcessManager(ProcessManager* pm){
+  pm->runSchedulingPolicy(pm);
+  parseAndExecInstructionCPU(pm->cpu);
+  pm->time+=1;
+}
