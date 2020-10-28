@@ -50,7 +50,7 @@ int main(void){
           break;
         case 'U':
           // unblock first process
-          unblockFirstProcess(pm.blocked_processes, pm.ready_processes); 
+          unblockFirstProcess(pm->blocked_processes, pm->ready_processes); 
           break;
         case 'P':
           // print state
