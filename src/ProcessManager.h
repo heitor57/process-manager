@@ -5,12 +5,17 @@
 #include "List.h"
 
 typedef struct{
-  CPU *cpu;
+  CPU* cpu;
   int time;
   Process *executing_process;
-  List ready_processes;
-  List pcb_table;
-  List blocked_processes;
+  List* ready_processes;
+  List* pcb_table;
+  List* blocked_processes;
   int (*schedulingPolicy)(List *, Process *);
 }ProcessManager;
+
+ProcessManager* initProcessManager();
+void freeProcessManager(ProcessManager* pm);
+
+
 #endif
