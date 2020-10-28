@@ -6,6 +6,7 @@
 
 typedef struct{
   CPU *cpu;
+  int time;
   Process *executing_process;
   List ready_processes;
   List pcb_table;
