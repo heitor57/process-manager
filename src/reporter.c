@@ -1,7 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "List.h";
-#include "Process.h";
+#include "List.h"
+#include "Process.h"
+
+void printProcessList(List* process_list) {
+    Node *node = getFirstNodeList(process_list);
+    Process* process;
+    while(node != NULL){
+      process = ((Process*)node->object);
+        printf("%d\t%d\t%d\t%d\t%f\t%f\n", process->id, process->parent_id, 
+                                        process->priority, process->var, 
+                                        process->init_time, process->cpu_usage);
+        node = node->next;
+    }
+}
 
 void reporter(int time, Process executing_process, List *ready_processes, List *blocked_processes) {
 
@@ -25,14 +37,3 @@ void reporter(int time, Process executing_process, List *ready_processes, List *
     
 }
 
-void printProcessList(List* process_list) {
-    Node *node = getFirstNodeList(process_list);
-    Process process;
-    while(node != NULL){
-        process = node->object;
-        printf("%d\t%d\t%d\t%d\t%f\t%f\n", process.id, process.parent_id, 
-                                        process.priority, process.var, 
-                                        process.init_time, process.cpu_usage);
-        node = node->next;
-    }
-}
