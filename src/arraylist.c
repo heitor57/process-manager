@@ -31,13 +31,13 @@ struct Arraylist_Struct {
 static void *checkedMalloc(const sizeT size);
 
 
-void arraylistFree(const Arraylist list)
+void freeArrayList(const Arraylist list)
 {
   free(list->data);
   free(list);
 }
 
-Arraylist arraylistCreate(const Boolean (*equals)(const Object object_1, const Object object_2))
+Arraylist createArrayList(const Boolean (*equals)(const Object object_1, const Object object_2))
 {
   Arraylist list;
 
@@ -50,9 +50,9 @@ Arraylist arraylistCreate(const Boolean (*equals)(const Object object_1, const O
   return list;
 }
 
-Boolean arraylistAdd(const Arraylist list, Object object)
+Boolean addArrayList(const Arraylist list, Object object)
 {
-  int oldSize = arraylistSize(list);
+  int oldSize = sizeArrayList(list);
   int newCapacity;
   Object *newData;
 
@@ -70,16 +70,16 @@ Boolean arraylistAdd(const Arraylist list, Object object)
   return TRUE;
 }
 
-Boolean arraylistRemove(const Arraylist list, const Object object)
+Boolean removeArrayList(const Arraylist list, const Object object)
 {
-  int length = arraylistSize(list);
+  int length = sizeArrayList(list);
   int lastIndex = length - 1;
   int newSize, newCapacity;
   int index;
 
   for (index = 0; index < length; index++)
   {
-      if ((*list->equals)(arraylistGet(list, index), object))
+      if ((*list->equals)(getArrayList(list, index), object))
 	{
 	  (list->size)--;
 	  if (index < lastIndex)
@@ -99,19 +99,19 @@ Boolean arraylistRemove(const Arraylist list, const Object object)
   return FALSE;
 }
 
-Boolean arraylistContains(const Arraylist list, const Object object)
+Boolean containsArrayList(const Arraylist list, const Object object)
 {
-  return (arraylistIndexOf(list, object) > -1);
+  return (indexOfArrayList(list, object) > -1);
 }
 
-int arraylistIndexOf(const Arraylist list, const Object object)
+int indexOfArrayList(const Arraylist list, const Object object)
 {
-  int length = arraylistSize(list);
+  int length = sizeArrayList(list);
   int index;
 
   for (index = 0; index < length; index++)
     {
-      if ((*list->equals)(arraylistGet(list, index), object))
+      if ((*list->equals)(getArrayList(list, index), object))
 	{
 	  return index;
 	}
@@ -119,22 +119,22 @@ int arraylistIndexOf(const Arraylist list, const Object object)
   return -1;
 }
 
-Boolean arraylistIsEmpty(const Arraylist list)
+Boolean isEmptyArrayList(const Arraylist list)
 {
-  return (0 == arraylistSize(list));
+  return (0 == sizeArrayList(list));
 }
 
-int arraylistSize(const Arraylist list)
+int sizeArrayList(const Arraylist list)
 {
   return list->size;
 }
 
-Object arraylistGet(const Arraylist list, const int index)
+Object getArrayList(const Arraylist list, const int index)
 {
   return list->data[index];
 }
 
-void arraylistClear(const Arraylist list)
+void clearArrayList(const Arraylist list)
 {
   list->data = (Object *)realloc(list->data, objectSize * ARRAYLIST_INITIAL_CAPACITY);
   list->currentCapacity = ARRAYLIST_INITIAL_CAPACITY;
@@ -156,9 +156,9 @@ static void *checkedMalloc(const sizeT size)
   return data;
 }
 
-Object arraylistRemoveIndex(const Arraylist list, const int index)
+Object removeIndexArrayList(const Arraylist list, const int index)
 {
-  int length = arraylistSize(list);
+  int length = sizeArrayList(list);
   int lastIndex = length - 1;
   int newSize, newCapacity;
   Object o;
@@ -181,10 +181,10 @@ Object arraylistRemoveIndex(const Arraylist list, const int index)
   return o;
 }
 
-void arraylistSort(const Arraylist list, int (*compare)(const void * object_1, const void * object_2))
+void sortArrayList(const Arraylist list, int (*compare)(const void * object_1, const void * object_2))
 {
 	qsort(list->data,
-		  arraylistSize(list),
+		  sizeArrayList(list),
 		  sizeof(Object),
 		  compare);
 }
