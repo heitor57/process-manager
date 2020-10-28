@@ -108,5 +108,9 @@ int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
 
 int searchDecodeRunCPU(CPU *cpu){
   
+  char instruction = cpu->program[cpu->pc];
+  cpu->pc++;
+  parseAndExecInstructionCPU(cpu,instruction);
+  
 }
   
