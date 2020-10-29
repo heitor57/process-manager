@@ -31,4 +31,5 @@ bool equalsProcess(const Object o1,const Object o2){
 Process* startInitProcess() {
   Process* init = initProcess();
   init->id = 0;
+  return init;
 }
