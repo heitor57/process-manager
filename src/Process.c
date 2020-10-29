@@ -1,13 +1,15 @@
-#include "Process.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include "utils.h"
+#include "Process.h"
 Process* initProcess(){
   Process* p = malloc(sizeof(Process));
   p->cpu_usage=0;
   p->state=Ready;
   p->cpu_usage=0;
   p->init_time=0;
-  p->pc = malloc(sizeof(int));
+  p->pc = NULL;
+  /* p->pc = malloc(sizeof(int)); */
   if (p==NULL){
     exit(1);
   }

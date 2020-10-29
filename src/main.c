@@ -36,6 +36,7 @@ int main(void){
     /* init_process = startInitProcess(); */
     init_process = initProcess();
     loadProgramProcess(init_process,"init");
+    addProcessProcessManager(pm, init_process);
     
     while(strcmp(readbuffer,"T")){
       nbytes = read(fd[0], readbuffer, sizeof(readbuffer));

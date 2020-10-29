@@ -40,12 +40,17 @@ void addProcessProcessManager(ProcessManager* pm, Process* p){
   insertAtEndList(pm->ready_processes, p);
   addByIndexArrayList(pm->pcb_table, p, p->id);
 }
+
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   Process* executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
   if(p->id != executing_process->id){
     *(executing_process->pc)=pm->cpu->pc;
     executing_process->var=pm->cpu->var;
     executing_process->program=pm->cpu->program;
+
+    pm->cpu->pc=*(p->pc);
+    pm->cpu->var=p->var;
+    pm->cpu->program=p->program;
   }
 }
 
