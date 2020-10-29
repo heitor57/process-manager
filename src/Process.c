@@ -35,6 +35,8 @@ bool equalsProcess(const Object o1,const Object o2){
 
 
 Process* loadProgramProcess(Process* p, char* file_name) {
-  p->pc=0;
+  if(p->pc == NULL)
+    p->pc= malloc(sizeof(int));
+  *(p->pc)=0;
   p->program = load_program(file_name);
 }
