@@ -10,6 +10,7 @@
 #include "utils.h"
 
 int main(void){
+  srand(time(NULL));
   int fd[2];
   int childpid;
   char readbuffer[80];
