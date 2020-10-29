@@ -47,6 +47,7 @@ int main(void){
         switch(readbuffer[0]){
         case 'Q':
           // Execute one instruction in CPU
+          stepTimeProcessManager(pm);
           break;
         case 'U':
           // unblock first process

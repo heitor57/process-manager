@@ -3,13 +3,14 @@
 #include "CPU.h"
 #include "Process.h"
 #include "List.h"
+#include "ArrayList.h"
 typedef struct ProcessManager ProcessManager;
 struct ProcessManager{
   CPU* cpu;
   int time;
   Process *executing_process;
   List* ready_processes;
-  List* pcb_table;
+  ArrayList pcb_table;
   List* blocked_processes;
   int (*runSchedulingPolicy)(ProcessManager*);
 };

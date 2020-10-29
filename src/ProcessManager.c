@@ -24,6 +24,6 @@ void freeProcessManager(ProcessManager* pm){
 
 void stepTimeProcessManager(ProcessManager* pm){
   pm->runSchedulingPolicy(pm);
-  parseAndExecInstructionCPU(pm->cpu);
+  searchDecodeRunCPU(pm->cpu);
   pm->time+=1;
 }
