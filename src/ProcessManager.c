@@ -54,3 +54,7 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   }
 }
 
+void forkProcessManager(ProcessManager* pm, Process* p){
+
+}
+
