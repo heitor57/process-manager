@@ -70,6 +70,29 @@ Boolean addArrayList(const ArrayList list, Object object)
   return TRUE;
 }
 
+Boolean addByIndexArrayList(const ArrayList list, const Object object, const int index)
+{
+  int oldSize = sizeArrayList(list);
+  int newCapacity;
+  Object *newData;
+
+  (list->size)++;
+  if (oldSize == list->currentCapacity)
+    {
+      newCapacity = list->currentCapacity + ARRAYLIST_CAPACITY_DELTA;
+      newData = (Object *) malloc(objectSize * newCapacity);
+      memcpy(newData, list->data, objectSize * oldSize);
+      free(list->data);
+      (list->data) = newData;
+      list->currentCapacity = newCapacity;
+    }
+  (list->data)[index] = object;
+  for (int i = oldSize; i > index; i--) {
+    (list->data)[i] = (list->data)[i-1];
+  }
+  return TRUE;
+}
+
 Boolean removeArrayList(const ArrayList list, const Object object)
 {
   int length = sizeArrayList(list);
