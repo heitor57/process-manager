@@ -7,7 +7,6 @@
 #define Object void*
 /* typedef void* Object; */
 
-typedef enum {TypesListProcess=314} TypesList;
 struct node {
     Object object;
     struct node *next;
@@ -15,7 +14,6 @@ struct node {
 typedef struct node Node;
 
 struct descriptor {
-  TypesList type;
     struct node *start;
     struct node *end;
     int qty;
@@ -24,7 +22,7 @@ struct descriptor {
 typedef struct descriptor List;
 
 
-List* createList(TypesList type,bool (*equals)(const Object object_1, const Object object_2));
+List* createList(bool (*equals)(const Object object_1, const Object object_2));
 void freeList(List* li);
 int insertAtEndList(List* li, Object o);
 int insertAtStartList(List* li, Object o);

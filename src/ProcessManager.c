@@ -8,11 +8,11 @@ ProcessManager* initProcessManager(){
   }
   pm->time=0;
   pm->cpu=initCPU();
-  pm->executing_process=NULL;
-  pm->ready_processes=createList(TypesListProcess,NULL);
+  pm->executing_process=-1;
+  pm->ready_processes=createList(NULL);
   pm->pcb_table=createArrayList(NULL);
-  pm->blocked_processes=createList(TypesListProcess,NULL);
-  pm->last_process_id = -1;
+  pm->blocked_processes=createList(NULL);
+  pm->last_process_id=-1;
   return pm;
 }
 

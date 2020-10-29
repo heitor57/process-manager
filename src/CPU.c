@@ -69,7 +69,8 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
     cpu->pc = 0;
     cpu->var = rand();
     /* processSwitch(); */
-    load_program(arg->string);
+    freeArrayList(cpu->program);
+    cpu->program=load_program(arg->string);
     break;
   }
   return 0;

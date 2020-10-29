@@ -3,14 +3,13 @@
 #include "List.h"
 #include "Process.h"
 
-List* createList(TypesList type,bool (*equals)(const Object object_1, const Object object_2)){
+List* createList(bool (*equals)(const Object object_1, const Object object_2)){
     List* li = (List*) malloc(sizeof(List));
     if(li != NULL){
         li->start = NULL;
         li->end = NULL;
         li->qty = 0;
         li->equals = equals;
-        li->type = type;
     }
     return li;
 }
@@ -21,11 +20,7 @@ void freeList(List* li){
         while((li->start) != NULL){
             node = li->start;
             li->start = li->start->next;
-            switch(li->type){
-            case TypesListProcess:
-              free(((Process*)node->object));
-              break;
-            }
+            free(node->object);
             free(node);
         }
         free(li);
