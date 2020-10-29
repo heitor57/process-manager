@@ -12,6 +12,7 @@ struct ProcessManager{
   List* ready_processes;
   ArrayList pcb_table;
   List* blocked_processes;
+  int last_process_id;
   int (*runSchedulingPolicy)(ProcessManager*);
 };
 
