@@ -31,5 +31,8 @@ bool equalsProcess(const Object o1,const Object o2){
 Process* startInitProcess() {
   Process* init = initProcess();
   init->id = 0;
+  init->pc = malloc(sizeof(int));
+  init->pc = 0;
+  init->program = load_program('init');
   return init;
 }
