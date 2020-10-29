@@ -8,7 +8,7 @@ typedef struct ProcessManager ProcessManager;
 struct ProcessManager{
   CPU* cpu;
   int time;
-  Process *executing_process;
+  int executing_process;
   List* ready_processes;
   ArrayList pcb_table;
   List* blocked_processes;
