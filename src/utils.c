@@ -28,7 +28,7 @@ ArrayList load_program(char *file_name){
   return program;
 }
 
-int unblockProcess(blocked_processes, ready_processes) {
+int unblockFirstProcess(blocked_processes, ready_processes) {
   Node *node = getFirstNodeList(blocked_processes);
   Process* process = node->object;
   process->state = Ready;

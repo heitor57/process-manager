@@ -13,6 +13,7 @@ int main(void){
   int fd[2];
   int childpid;
   char readbuffer[80];
+  Process *init_process;
   FILE* init_file;
   int nbytes;
   pipe(fd);
@@ -31,11 +32,13 @@ int main(void){
     dup2(fd[0],STDIN_FILENO);
     printf("Initializating process manager\n");
     ProcessManager* pm = initProcessManager();
-    /* init_file=fopen("init","r"); */
-    /* if(init_file == NULL){ */
-    /*   printf("Failed to start init file, it could be missing, check it out!\n"); */
-    /* } */
-    /* = load_program("init"); */
+    init_file = fopen("init","r");
+    if(init_file == NULL) {
+      printf("Failed to start init file, it could be missing, check it out!\n");
+    }
+    init_process = startInitProcess();
+    init_process->program = load_program(init_file);
+    
     while(strcmp(readbuffer,"q")){
       nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
       /* printf("%s",readbuffer); */
