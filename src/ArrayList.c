@@ -70,7 +70,7 @@ Boolean addArrayList(const ArrayList list, Object object)
   return TRUE;
 }
 
-Boolean addByIndexArrayList(const ArrayList list, const Object object, const int index)
+Boolean addByIndexArrayList(const ArrayList list, Object object, const int index)
 {
   int oldSize = sizeArrayList(list);
   int newCapacity;

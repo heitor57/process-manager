@@ -1,6 +1,7 @@
 #include "ProcessManager.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include "ArrayList.h"
 ProcessManager* initProcessManager(){
   ProcessManager* pm = malloc(sizeof(ProcessManager));
   if (pm==NULL){
@@ -37,9 +38,14 @@ void addProcessProcessManager(ProcessManager* pm, Process* p){
   p->id=newPIDProcessManager(pm);
   pm->last_process_id=p->id;
   insertAtEndList(pm->ready_processes, p);
-  // insert at some index in array list, need to create this function in array list ADT
+  addByIndexArrayList(pm->pcb_table, p, p->id);
 }
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
-  
+  Process* executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
+  if(p->id != executing_process->id){
+    *(executing_process->pc)=pm->cpu->pc;
+    executing_process->var=pm->cpu->var;
+    executing_process->program=pm->cpu->program;
+  }
 }
 
