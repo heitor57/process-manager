@@ -20,4 +20,5 @@ ProcessManager* initProcessManager();
 void freeProcessManager(ProcessManager* pm);
 void StepTimeProcessManager(ProcessManager* pm);
 void addProcessProcessManager(ProcessManager* pm, Process* p);
+int newPIDProcessManager(ProcessManager* pm);
 #endif

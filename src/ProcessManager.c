@@ -29,6 +29,13 @@ void stepTimeProcessManager(ProcessManager* pm){
   pm->time+=1;
 }
 
+int newPIDProcessManager(ProcessManager* pm){
+  return pm->last_process_id+1;
+}
+
 void addProcessProcessManager(ProcessManager* pm, Process* p){
-  
+  p->id=newPIDProcessManager(pm);
+  pm->last_process_id=p->id;
+  insertAtEndList(pm->ready_processes, p);
+  // insert at some index in array list, need to create this function in array list ADT
 }
