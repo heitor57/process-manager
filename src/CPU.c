@@ -66,6 +66,9 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
   case 'F':
     break;
   case 'R':
+    cpu->pc = 0;
+    cpu->var = rand();
+    /* processSwitch(); */
     load_program(arg->string);
     break;
   }
