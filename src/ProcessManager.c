@@ -27,3 +27,7 @@ void stepTimeProcessManager(ProcessManager* pm){
   searchDecodeRunCPU(pm->cpu);
   pm->time+=1;
 }
+
+void addProcessProcessManager(ProcessManager* pm, Process* p){
+  
+}

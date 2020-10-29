@@ -7,6 +7,7 @@ Process* initProcess(){
   p->state=Ready;
   p->cpu_usage=0;
   p->init_time=0;
+  p->pc = malloc(sizeof(int));
   if (p==NULL){
     exit(1);
   }
@@ -14,6 +15,8 @@ Process* initProcess(){
 }
 
 void freeProcess(Process* p){
+  if(p->pc!=NULL)
+    free(p->pc);
   if(p!=NULL)
     free(p);
 }
@@ -28,11 +31,8 @@ bool equalsProcess(const Object o1,const Object o2){
   }
 }
 
-Process* startInitProcess() {
-  Process* init = initProcess();
-  init->id = 0;
-  init->pc = malloc(sizeof(int));
-  init->pc = 0;
-  init->program = load_program('init');
-  return init;
+
+Process* loadProgramProcess(Process* p, char* file_name) {
+  p->pc=0;
+  p->program = load_program(file_name);
 }

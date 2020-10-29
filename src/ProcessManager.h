@@ -18,5 +18,5 @@ struct ProcessManager{
 ProcessManager* initProcessManager();
 void freeProcessManager(ProcessManager* pm);
 void StepTimeProcessManager(ProcessManager* pm);
-
+void addProcessProcessManager(ProcessManager* pm, Process* p);
 #endif
