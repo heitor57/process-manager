@@ -10,8 +10,9 @@ ProcessManager* initProcessManager(){
   pm->cpu=initCPU();
   pm->executing_process=NULL;
   pm->ready_processes=createList(TypesListProcess,NULL);
-  pm->pcb_table=createList(TypesListProcess,NULL);
+  pm->pcb_table=createArrayList(NULL);
   pm->blocked_processes=createList(TypesListProcess,NULL);
+  pm->last_process_id = -1;
   return pm;
 }
 
@@ -26,4 +27,8 @@ void stepTimeProcessManager(ProcessManager* pm){
   pm->runSchedulingPolicy(pm);
   searchDecodeRunCPU(pm->cpu);
   pm->time+=1;
+}
+
+void addProcessProcessManager(ProcessManager* pm, Process* p){
+  
 }

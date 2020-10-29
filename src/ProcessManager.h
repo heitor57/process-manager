@@ -8,15 +8,16 @@ typedef struct ProcessManager ProcessManager;
 struct ProcessManager{
   CPU* cpu;
   int time;
-  Process *executing_process;
+  int executing_process;
   List* ready_processes;
   ArrayList pcb_table;
   List* blocked_processes;
+  int last_process_id;
   int (*runSchedulingPolicy)(ProcessManager*);
 };
 
 ProcessManager* initProcessManager();
 void freeProcessManager(ProcessManager* pm);
 void StepTimeProcessManager(ProcessManager* pm);
-
+void addProcessProcessManager(ProcessManager* pm, Process* p);
 #endif

@@ -14,7 +14,8 @@ typedef struct{
 bool equalsProcess(const Object o1,const Object o2);
 Process* initProcess();
 void freeProcess(Process* p);
-Process* startInitProcess();
+Process* loadProgramProcess(Process* p, char* file_name);
+/* Process* startInitProcess(); */
 /* readInput */
 /* createProcess */
 /* processSwitch */

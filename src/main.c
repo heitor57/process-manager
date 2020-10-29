@@ -33,21 +33,13 @@ int main(void){
     dup2(fd[0],STDIN_FILENO);
     printf("Initializating process manager\n");
     ProcessManager* pm = initProcessManager();
-    init_file = fopen("init","r");
-    if(init_file == NULL) {
-      printf("Failed to start init file, it could be missing, check it out!\n");
-    }
-    init_process = startInitProcess();
-    init_process->program = load_program(init_file);
+    /* init_process = startInitProcess(); */
+    init_process = initProcess();
+    loadProgramProcess(init_process,"init");
     
-    while(strcmp(readbuffer,"q")){
+    while(strcmp(readbuffer,"T")){
       nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
-      /* printf("%s",readbuffer); */
-      /* printf("|| %s ||",readbuffer); */
-      /* printf("%d",strlen(readbuffer)); */
-      /* printf("LOL1\n"); */
       if(strlen(readbuffer)==1){
-        /* printf("%s is a invalid instruction\n",readbuffer); */
         switch(readbuffer[0]){
         case 'Q':
           // Execute one instruction in CPU
