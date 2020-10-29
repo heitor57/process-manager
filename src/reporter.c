@@ -3,11 +3,14 @@
 #include "List.h"
 #include "Process.h"
 
-void printProcessList(List* process_list) {
+void printProcessList(ArrayList pcb_table,List* process_list) {
     Node *node = getFirstNodeList(process_list);
     Process* process;
+    int* pid;
     while(node != NULL){
-      process = ((Process*)node->object);
+      pid = ((int*)node->object);
+      process = (Process*)getArrayList(pcb_table,pid);
+      /* process = ((Process*)node->object); */
         printf("%d\t%d\t%d\t%d\t%f\t%f\n", process->id, process->parent_id, 
                                         process->priority, process->var, 
                                         process->init_time, process->cpu_usage);
@@ -15,7 +18,7 @@ void printProcessList(List* process_list) {
     }
 }
 
-void reporter(int time, Process executing_process, List *ready_processes, List *blocked_processes) {
+void reporter(int time, ArrayList pcb_table, Process executing_process, List *ready_processes, List *blocked_processes) {
 
     printf("****************************************************************\n");
     printf("Estado do sistema:\n");
@@ -29,10 +32,10 @@ void reporter(int time, Process executing_process, List *ready_processes, List *
 
     printf("BLOQUEADO:\n");
     printf("Fila processos bloqueados:\n");
-    printProcessList(blocked_processes);
+    printProcessList(pcb_table,blocked_processes);
 
     printf("PROCESSOS PRONTOS:\n");
-    printProcessList(ready_processes);
+    printProcessList(pcb_table,ready_processes);
     
     
 }
