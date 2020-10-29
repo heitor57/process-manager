@@ -18,7 +18,7 @@ struct ProcessManager{
 
 ProcessManager* initProcessManager();
 void freeProcessManager(ProcessManager* pm);
-void StepTimeProcessManager(ProcessManager* pm);
+void stepTimeProcessManager(ProcessManager* pm);
 void addProcessProcessManager(ProcessManager* pm, Process* p);
 int newPIDProcessManager(ProcessManager* pm);
 void contextSwitchProcessManager(ProcessManager* pm, Process* p);

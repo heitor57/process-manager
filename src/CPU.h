@@ -13,7 +13,7 @@ typedef union {
 }ArgumentCPU;
 CPU* initCPU();
 void freeCPU(CPU* cpu);
-int searchDecodeRunCPU(CPU *cpu);
+void searchDecodeRunCPU(CPU *cpu);
 /* void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg); */
 /* void parseInstruction(); */
 /* execInstruction(int id) */

@@ -12,7 +12,7 @@ ArrayList load_program(char *file_name){
   char *aux;
   if(program_file==NULL){
     printf("Error opening file\n");
-    return 1;
+    return NULL;
   }
  /*Create array list*/
   /*arraylist = createArrayList();*/
@@ -28,7 +28,7 @@ ArrayList load_program(char *file_name){
   return program;
 }
 
-int unblockFirstProcess(blocked_processes, ready_processes) {
+void unblockFirstProcess(List* blocked_processes, List* ready_processes) {
   Node *node = getFirstNodeList(blocked_processes);
   Process* process = node->object;
   process->state = Ready;

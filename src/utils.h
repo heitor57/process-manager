@@ -7,5 +7,5 @@
 #include "ArrayList.h"
 
 ArrayList load_program(char *file_name);
-int unblockProcess(blocked_processes, ready_processes);
+void unblockFirstProcess(List* blocked_processes, List* ready_processes);
 #endif

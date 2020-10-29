@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <sys/wait.h>
 #include "Process.h"
 #include "ProcessManager.h"
@@ -15,8 +16,7 @@ int main(void){
   int childpid;
   char readbuffer[80];
   Process *init_process;
-  FILE* init_file;
-  int nbytes;
+  // int nbytes;
   pipe(fd);
   if(pipe(fd) < 0) {
     perror("pipe");
@@ -39,7 +39,7 @@ int main(void){
     addProcessProcessManager(pm, init_process);
     
     while(strcmp(readbuffer,"T")){
-      nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
+      // nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
       if(strlen(readbuffer)==1){
         switch(readbuffer[0]){
         case 'Q':
@@ -64,7 +64,6 @@ int main(void){
       }
     }
     freeProcessManager(pm);
-    fclose(init_file);
     close(fd[0]);
   }else{
     close(fd[0]);

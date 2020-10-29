@@ -45,8 +45,6 @@ bool needArgInstructionCPU(char instruction){
 }
 
 int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
-  int buffer_length = 4096;
-  char buffer[buffer_length];
   switch(instruction_type){
   case 'S':
       cpu->var = arg->integer;
@@ -75,7 +73,8 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
   }
   return 0;
 }
-int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
+int parseAndExecInstructionCPU(CPU* cpu){
+  char *instruction;
   char* token = strtok(instruction, " ");
   char instruction_type=token[0];
   ArgumentCPU arg;
@@ -113,10 +112,9 @@ int parseAndExecInstructionCPU(CPU* cpu,char *instruction){
   }
 }
 
-int searchDecodeRunCPU(CPU *cpu){
-  char* instruction;
+void searchDecodeRunCPU(CPU *cpu){
   getArrayList(cpu->program,cpu->pc);
-  parseAndExecInstructionCPU(cpu,instruction);
+  parseAndExecInstructionCPU(cpu);
   cpu->pc++;
 }
   

@@ -33,7 +33,7 @@ int sizeList(List* li){
     return li->qty;
 }
 
-int fullList(List* li){
+int fullList(){
     return 0;
 }
 
@@ -125,9 +125,9 @@ Node* getFirstNodeList(List* li){
   return li->start;
 }
 
-int getByIndexList(List* li, int pos, Object o){
+Object getByIndexList(List* li, int pos){
     if(li == NULL || li->start == NULL || pos <= 0)
-        return 0;
+        return NULL;
     Node *node = li->start; //first node
     int i = 1;
     while(node != NULL && i < pos){
@@ -135,10 +135,9 @@ int getByIndexList(List* li, int pos, Object o){
         i++;
     }
     if(node == NULL)
-        return 0;
+        return NULL;
     else{
-        o = node->object;
-        return 1;
+        return node->object;
     }
 }
 

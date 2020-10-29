@@ -28,8 +28,6 @@ struct ArrayList_Struct {
 /*
   private function declarations
 */
-static void *checkedMalloc(const size_t size);
-
 
 void freeArrayList(const ArrayList list)
 {
@@ -41,7 +39,7 @@ ArrayList createArrayList(const Boolean (*equals)(const Object object_1, const O
 {
   ArrayList list;
 
-  list = (struct ArrayList *)malloc(sizeof(struct ArrayList_Struct));
+  list = (ArrayList)malloc(sizeof(struct ArrayList_Struct));
   list->currentCapacity = ARRAYLIST_INITIAL_CAPACITY;
   list->data = (Object *) malloc(objectSize * list->currentCapacity);
   list->size = 0;
@@ -164,20 +162,6 @@ void clearArrayList(const ArrayList list)
   list->size = 0;
 }
 
-static void *checkedMalloc(const size_t size)
-{
-  void *data;
-
-  data = malloc(size);
-  if (data == NULL)
-    {
-      fprintf(stderr, "\nOut of memory.\n");
-      fflush(stderr);
-      exit(EXIT_FAILURE);
-    }
-
-  return data;
-}
 
 Object removeIndexArrayList(const ArrayList list, const int index)
 {

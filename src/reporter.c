@@ -9,9 +9,9 @@ void printProcessList(ArrayList pcb_table,List* process_list) {
     int* pid;
     while(node != NULL){
       pid = ((int*)node->object);
-      process = (Process*)getArrayList(pcb_table,pid);
+      process = (Process*)getArrayList(pcb_table, *pid);
       /* process = ((Process*)node->object); */
-        printf("%d\t%d\t%d\t%d\t%f\t%f\n", process->id, process->parent_id, 
+        printf("%d\t%d\t%d\t%d\t%d\t%d\n", process->id, process->parent_id, 
                                         process->priority, process->var, 
                                         process->init_time, process->cpu_usage);
         node = node->next;
@@ -26,7 +26,7 @@ void reporter(int time, ArrayList pcb_table, Process executing_process, List *re
 
     printf("TEMPO ATUAL: %d\n", time);
     printf("PROCESSO EXECUTANDO:\n");
-    printf("%d\t%d\t%d\t%d\t%f\t%f\n", executing_process.id, executing_process.parent_id, 
+    printf("%d\t%d\t%d\t%d\t%d\t%d\n", executing_process.id, executing_process.parent_id, 
                                      executing_process.priority, executing_process.var, 
                                      executing_process.init_time, executing_process.cpu_usage);
 

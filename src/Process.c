@@ -39,4 +39,5 @@ Process* loadProgramProcess(Process* p, char* file_name) {
     p->pc= malloc(sizeof(int));
   *(p->pc)=0;
   p->program = load_program(file_name);
+  return p;
 }
