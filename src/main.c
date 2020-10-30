@@ -17,7 +17,8 @@ int main(void){
   int childpid;
   char readbuffer[80];
   Process *init_process;
-  // int nbytes;
+  /* int  */
+  int nbytes;
   pipe(fd);
   if(pipe(fd) < 0) {
     perror("pipe");
@@ -41,8 +42,9 @@ int main(void){
     /* addProcessProcessManager(pm, init_process); */
     
     while(strcmp(readbuffer,"T")){
-      // nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
-      if(strlen(readbuffer)==1){
+      nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
+      /* printf("%d\n",nbytes); */
+      if(nbytes == 2/sizeof(char)){
         switch(readbuffer[0]){
         case 'Q':
           // Execute one instruction in CPU
