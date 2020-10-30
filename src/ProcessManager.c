@@ -4,6 +4,7 @@
 #include "ArrayList.h"
 #include "utils.h"
 #include "CPU.h"
+
 ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManager*)){
   ProcessManager* pm = malloc(sizeof(ProcessManager));
   if (pm==NULL){
@@ -96,6 +97,22 @@ void unblockFirstProcessManager(ProcessManager* pm) {
   removeFromStartList(pm->blocked_processes);
 }
 
+void blockExecutingProcessManager(ProcessManager* pm){
+   insertAtEndList(pm->blocked_processes,
+                    &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
+                    );
+    ((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
+    pm->executing_process = -1;
+}
+void finishExecutingProcessManager(ProcessManager* pm){
+  Process* p = getArrayList(pm->pcb_table, pm->executing_process);
+  free(p->pc);
+  free(p->program);
+  removeIndexArrayList(pm->pcb_table, pm->executing_process);
+  pm->executing_process = -1;
+}
+
+
 
 int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessManager* pm){
   switch(instruction_type){
@@ -171,17 +188,3 @@ void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
   cpu->pc++;
 }
 
-void blockExecutingProcessManagr(ProcessManager* pm){
-   insertAtEndList(pm->blocked_processes,
-                    &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
-                    );
-    ((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
-    pm->executing_process = -1;
-}
-void finishExecutingProcessManager(ProcessManager* pm){
-  Process* p = getArrayList(pm->pcb_table, pm->executing_process);
-  free(p->pc);
-  free(p->program);
-  removeIndexArrayList(pm->pcb_table, pm->executing_process);
-  pm->executing_process = -1;
-}

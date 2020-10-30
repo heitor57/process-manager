@@ -9,6 +9,7 @@
 #include "ProcessManager.h"
 #include "List.h"
 #include "utils.h"
+#include "Scheduler.h"
 
 int main(void){
   srand(time(NULL));
@@ -32,7 +33,7 @@ int main(void){
     close(fd[1]);
     dup2(fd[0],STDIN_FILENO);
     printf("Initializating process manager\n");
-    ProcessManager* pm = initProcessManager();
+    ProcessManager* pm = initProcessManager(round_robin);
     /* init_process = startInitProcess(); */
     init_process = initProcess();
     init_process = newProcessProcessManager(pm);
