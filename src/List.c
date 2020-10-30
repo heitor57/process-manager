@@ -155,30 +155,3 @@ int getObjectList(List* li, Object o){
     }
     return -1;
 }
-
-
-
-
-// int getByPid(List* li, int pid, Object *o){
-//     if(li == NULL || li->start == NULL)
-//         return 0;
-//     Node *node = li->start;
-//     while(node != NULL && node->object.pid != pid)
-//         node = node->next;
-//     if(node->object.pid != pid)
-//         return 0;
-//     else{
-//         *p = node->object;
-//         return 1;
-//     }
-// }
-
-// void printList(List* li){
-//     if(li == NULL || li->start == NULL)
-//         return;
-//     Node* node = li->start;
-//     while(node != NULL){
-//         printf("pid: %d\n",node->object.pid);
-//         node = node->next;
-//     }
-// }

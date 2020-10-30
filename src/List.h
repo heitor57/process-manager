@@ -34,6 +34,4 @@ int emptyList(List* li);
 Object getByIndexList(List* li, int pos);
 int getObjectList(List* li, Object o);
 Node* getFirstNodeList(List* li);
-// int getByPid(List* li, int pid, Object object);
-// void printList(List* li);
 #endif
