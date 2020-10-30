@@ -30,6 +30,14 @@ void stepTimeProcessManager(ProcessManager* pm){
   pm->time+=1;
 }
 
+Process* newProcessProcessManager(ProcessManager* pm){
+  Process* p = initProcess();
+  p->id = newPIDProcessManager(pm);
+  addByIndexArrayList(pm->pcb_table,p,p->id);
+  insertAtEndList(pm->ready_processes,&(p->id));
+  return p;
+}
+
 int newPIDProcessManager(ProcessManager* pm){
   return pm->last_process_id+1;
 }
@@ -37,7 +45,7 @@ int newPIDProcessManager(ProcessManager* pm){
 void addProcessProcessManager(ProcessManager* pm, Process* p){
   p->id=newPIDProcessManager(pm);
   pm->last_process_id=p->id;
-  insertAtEndList(pm->ready_processes, p);
+  insertAtEndList(pm->ready_processes, &(p->id));
   addByIndexArrayList(pm->pcb_table, p, p->id);
 }
 
@@ -51,6 +59,8 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p){
     pm->cpu->pc=*(p->pc);
     pm->cpu->var=p->var;
     pm->cpu->program=p->program;
+    insertAtEndList(pm->ready_processes,&(executing_process->id));
+    pm->executing_process=p->id;
   }
 }
 
@@ -65,6 +75,6 @@ void forkProcessManager(ProcessManager* pm, Process* p){
   newProcess->id = newPIDProcessManager(pm);
   newProcess->parent_id = p->id;
   addByIndexArrayList(pm->pcb_table,newProcess,newProcess->id);
-  insertAtEndList(pm->ready_processes, newProcess);
+  insertAtEndList(pm->ready_processes, &(newProcess->id));
 }
 
