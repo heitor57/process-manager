@@ -10,11 +10,12 @@
 #include "List.h"
 #include "utils.h"
 #include "Scheduler.h"
+#include "reporter.h"
 
 int main(void){
   srand(time(NULL));
   int fd[2];
-  int childpid;
+  int childpid,rchildpid;
   char readbuffer[80];
   Process *init_process;
   /* int  */
@@ -56,6 +57,14 @@ int main(void){
           break;
         case 'P':
           // print state
+          if((rchildpid = fork()) == -1){
+            perror("fork");
+            exit(1);
+          }
+          if (rchildpid == 0){
+            printState(pm);
+          }
+
           break;
         case 'T':
           // print mean return time
