@@ -55,6 +55,16 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p){
 }
 
 void forkProcessManager(ProcessManager* pm, Process* p){
+  Process* newProcess = createProcess();
+  newProcess->pc = p->pc;
+  newProcess->id = p->id;
+  newProcess->var = p->var;
+  newProcess->program = p->program;
+  newProcess->priority = p->priority;
+  newProcess->state = Ready;
+  newProcess->init_time = __TIME__;
+  p->id = newPIDProcessManager(pm);
+  newProcess->parent_id = p->id;
 
 }
 
