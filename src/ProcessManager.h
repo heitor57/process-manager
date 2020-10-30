@@ -25,6 +25,7 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p);
 void forkProcessManager(ProcessManager* pm, Process* p, int pc_diff);
 Process* newProcessProcessManager(ProcessManager* pm);
 void unblockFirstProcess(ProcessManager* pm);
+void finishProcessProcessManager(ProcessManager* pm);
 
 void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm);
 #endif

@@ -176,3 +176,10 @@ void blockExecuting(ProcessManager* pm){
     &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
     pm->executing_process = -1;
 }
+void finishExecutingProcessManager(ProcessManager* pm){
+  Process* p = getArrayList(pm->pcb_table, pm->executing_process);
+  free(p->pc);
+  free(p->program);
+  removeIndexArrayList(pm->pcb_table, pm->executing_process);
+  pm->executing_process = -1;
+}
