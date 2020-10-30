@@ -13,6 +13,8 @@ struct ProcessManager{
   ArrayList pcb_table;
   List* blocked_processes;
   int last_process_id;
+  int sum_return_time;
+  int num_finished;
   Process* (*runSchedulingPolicy)(ProcessManager*);
 };
 

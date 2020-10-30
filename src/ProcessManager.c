@@ -18,6 +18,7 @@ ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManage
   pm->blocked_processes=createList(NULL);
   pm->last_process_id=-1;
   pm->runSchedulingPolicy=runSchedulingPolicy;
+  pm->mean_return_time = 0;
   return pm;
 }
 
@@ -110,6 +111,8 @@ void finishExecutingProcessManager(ProcessManager* pm){
   free(p->program);
   removeIndexArrayList(pm->pcb_table, pm->executing_process);
   pm->executing_process = -1;
+  pm->sum_return_time += pm->time;
+  pm->num_finished += 1;
 }
 
 
