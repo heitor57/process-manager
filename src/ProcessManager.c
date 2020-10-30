@@ -112,6 +112,7 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
     break;
 
   case 'E':
+    finishExecutingProcessManager(pm);
     break;
 
   case 'F':
