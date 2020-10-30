@@ -108,6 +108,7 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
       cpu->var -= arg->integer;
     break;
   case 'B':
+      blockExecuting(pm);
     break;
 
   case 'E':
@@ -165,4 +166,12 @@ void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
   char* instruction = getArrayList(cpu->program,cpu->pc);
   parseAndExecInstructionCPU(cpu,instruction,pm);
   cpu->pc++;
+}
+
+void blockExecuting(ProcessManager* pm){
+   insertAtEndList(pm->blocked_processes,
+                    &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
+                    );
+    &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
+    pm->executing_process = -1;
 }
