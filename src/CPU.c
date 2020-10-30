@@ -73,8 +73,7 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg){
   }
   return 0;
 }
-int parseAndExecInstructionCPU(CPU* cpu){
-  char *instruction;
+int parseAndExecInstructionCPU(CPU* cpu,char* instruction){
   char* token = strtok(instruction, " ");
   char instruction_type=token[0];
   ArgumentCPU arg;
@@ -113,8 +112,8 @@ int parseAndExecInstructionCPU(CPU* cpu){
 }
 
 void searchDecodeRunCPU(CPU *cpu){
-  getArrayList(cpu->program,cpu->pc);
-  parseAndExecInstructionCPU(cpu);
+  char* instruction = getArrayList(cpu->program,cpu->pc);
+  parseAndExecInstructionCPU(cpu,instruction);
   cpu->pc++;
 }
   

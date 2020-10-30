@@ -21,7 +21,7 @@ struct ArrayList_Struct {
   int currentCapacity;
   Object *data;
   int size;
-  const Boolean (*equals)(const Object object_1, const Object object_2);
+  Boolean (*equals)(const Object object_1, const Object object_2);
 };
 
 
@@ -35,7 +35,7 @@ void freeArrayList(const ArrayList list)
   free(list);
 }
 
-ArrayList createArrayList(const Boolean (*equals)(const Object object_1, const Object object_2))
+ArrayList createArrayList(Boolean (*equals)(const Object object_1, const Object object_2))
 {
   ArrayList list;
 
