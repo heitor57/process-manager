@@ -39,15 +39,16 @@ Process* newProcessProcessManager(ProcessManager* pm){
 }
 
 int newPIDProcessManager(ProcessManager* pm){
-  return pm->last_process_id+1;
+  pm->last_process_id++;
+  return pm->last_process_id;
 }
 
-void addProcessProcessManager(ProcessManager* pm, Process* p){
-  p->id=newPIDProcessManager(pm);
-  pm->last_process_id=p->id;
-  insertAtEndList(pm->ready_processes, &(p->id));
-  addByIndexArrayList(pm->pcb_table, p, p->id);
-}
+/* void addProcessProcessManager(ProcessManager* pm, Process* p){ */
+/*   p->id=newPIDProcessManager(pm); */
+/*   pm->last_process_id=p->id; */
+/*   insertAtEndList(pm->ready_processes, &(p->id)); */
+/*   addByIndexArrayList(pm->pcb_table, p, p->id); */
+/* } */
 
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   Process* executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
