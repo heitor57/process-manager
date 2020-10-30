@@ -47,6 +47,6 @@ int sizeArrayList(const ArrayList list);
 Object getArrayList(const ArrayList list, const int index);
 void clearArrayList(const ArrayList list);
 void sortArrayList(const ArrayList list, int (*compare)(const void * object_1, const void * object_2));
-
-
+/* void duplicateArrayList(const ArrayList list, const int object_real_size); */
+ArrayList duplicateStringArrayList(const ArrayList list);
 #endif /* __defined_arraylist_h */

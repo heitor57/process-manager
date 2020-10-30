@@ -35,6 +35,7 @@ void freeArrayList(const ArrayList list)
   free(list);
 }
 
+
 ArrayList createArrayList(Boolean (*equals)(const Object object_1, const Object object_2))
 {
   ArrayList list;
@@ -194,4 +195,20 @@ void sortArrayList(const ArrayList list, int (*compare)(const void * object_1, c
 		  sizeArrayList(list),
 		  sizeof(Object),
 		  compare);
+}
+ArrayList duplicateStringArrayList(const ArrayList list){
+  ArrayList new_list;
+  new_list = (ArrayList)malloc(sizeof(struct ArrayList_Struct));
+  new_list->currentCapacity = list->currentCapacity;
+  new_list->data = (Object *) malloc(objectSize * new_list->currentCapacity);
+  new_list->size = list->size;
+  int string_size;
+  for(int i=0; i < list->size;i++){
+    string_size = (strlen(list->data[i])+1)*sizeof(char);
+    list->data[i]= malloc(string_size);
+    /* sizeof(list->data[i]) */
+    memcpy(new_list->data[i],list->data[i],string_size);
+  }
+  /* memcpy(new_list->data,list->data,objectSize*list->size); */
+  return new_list;
 }
