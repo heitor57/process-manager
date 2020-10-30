@@ -35,7 +35,7 @@ typedef struct ArrayList_Struct *ArrayList;
   function declarations
 */
 void freeArrayList(const ArrayList list);
-ArrayList createArrayList(const Boolean (*equals)(const Object object_1, const Object object_2));
+ArrayList createArrayList(Boolean (*equals)(const Object object_1, const Object object_2));
 Boolean addArrayList(const ArrayList list, Object object);
 Boolean addByIndexArrayList(const ArrayList list, Object object, const int index);
 Boolean removeArrayList(const ArrayList list, const Object object);
