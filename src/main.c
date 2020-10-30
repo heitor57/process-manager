@@ -72,8 +72,8 @@ int main(void){
             exit(1);
           }
           wait(rchildpid);
-          printf("The mean return time is %lf\n",double(pm->sum_return_time)
-              /double(pm->num_finished));
+          printf("The turnaround time is %lf\n",(double)(pm->sum_return_time)
+              /(double)(pm->num_finished));
 
           break;
         default:
