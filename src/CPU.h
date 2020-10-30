@@ -1,6 +1,7 @@
 #ifndef CPU_H
 #define CPU_H
 #include "ArrayList.h"
+#include <stdbool.h>
 typedef struct{
   int var, pc;
   ArrayList program;
@@ -13,7 +14,9 @@ typedef union {
 }ArgumentCPU;
 CPU* initCPU();
 void freeCPU(CPU* cpu);
-void searchDecodeRunCPU(CPU *cpu);
+
+bool isAllowedInstructionCPU(char instruction);
+bool needArgInstructionCPU(char instruction);
 /* void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg); */
 /* void parseInstruction(); */
 /* execInstruction(int id) */

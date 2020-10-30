@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "ArrayList.h"
+#include "utils.h"
+#include "CPU.h"
 ProcessManager* initProcessManager(){
   ProcessManager* pm = malloc(sizeof(ProcessManager));
   if (pm==NULL){
@@ -27,7 +29,7 @@ void freeProcessManager(ProcessManager* pm){
 void stepTimeProcessManager(ProcessManager* pm){
   Process* p = pm->runSchedulingPolicy(pm);
   contextSwitchProcessManager(pm,p);
-  searchDecodeRunCPU(pm->cpu);
+  searchDecodeRunCPU(pm->cpu,pm);
   p->cpu_usage++;
   pm->time+=1;
 }
@@ -91,4 +93,76 @@ void unblockFirstProcess(ProcessManager* pm) {
   process->state = Ready;
   insertAtEndList(pm->ready_processes, process);
   removeFromStartList(pm->blocked_processes);
+}
+
+
+int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessManager* pm){
+  switch(instruction_type){
+  case 'S':
+      cpu->var = arg->integer;
+    break;
+  case 'A':
+      cpu->var += arg->integer;
+    break;
+  case 'D':
+      cpu->var -= arg->integer;
+    break;
+  case 'B':
+    break;
+
+  case 'E':
+    break;
+
+  case 'F':
+    break;
+  case 'R':
+    cpu->pc = 0;
+    cpu->var = rand();
+    cpu->program=load_program(arg->string);
+    break;
+  }
+  return 0;
+}
+int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
+  char* token = strtok(instruction, " ");
+  char instruction_type=token[0];
+  ArgumentCPU arg;
+  /* bool is_allowed_instruction = false; */
+  if (strlen(token) != 1 || !isAllowedInstructionCPU(instruction_type)){
+    return 1;
+  }
+  bool need_arg = needArgInstructionCPU(instruction_type);
+  if(!need_arg){
+    if(strlen(instruction)!=1){
+      printf("Instruction in incorrect format\n");
+      return 1;
+    }else{
+      return execInstructionCPU(cpu,instruction_type,&arg, pm);
+    }
+  }else{
+    token = strtok(NULL, " ");
+    if(token[0] != ' '){
+      printf("Missing space between instruction and argument\n");
+      return 1;
+    }
+
+    switch(instruction_type){
+    case 'S':
+    case 'A':
+    case 'D':
+    case 'F':
+      arg.integer = strtol(instruction+1,NULL,10);
+      break;
+    case 'R':
+      arg.string = instruction+2;
+      break;
+    }
+    return execInstructionCPU(cpu, instruction_type, &arg, pm);
+  }
+}
+
+void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
+  char* instruction = getArrayList(cpu->program,cpu->pc);
+  parseAndExecInstructionCPU(cpu,instruction,pm);
+  cpu->pc++;
 }
