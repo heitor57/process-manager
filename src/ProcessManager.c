@@ -4,7 +4,7 @@
 #include "ArrayList.h"
 #include "utils.h"
 #include "CPU.h"
-ProcessManager* initProcessManager(){
+ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManager*)){
   ProcessManager* pm = malloc(sizeof(ProcessManager));
   if (pm==NULL){
     perror("Could not allocate memory for Process Manager");
@@ -16,6 +16,7 @@ ProcessManager* initProcessManager(){
   pm->pcb_table=createArrayList(NULL);
   pm->blocked_processes=createList(NULL);
   pm->last_process_id=-1;
+  pm->runSchedulingPolicy=runSchedulingPolicy;
   return pm;
 }
 
@@ -99,16 +100,16 @@ void unblockFirstProcessManager(ProcessManager* pm) {
 int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessManager* pm){
   switch(instruction_type){
   case 'S':
-      cpu->var = arg->integer;
+    cpu->var = arg->integer;
     break;
   case 'A':
-      cpu->var += arg->integer;
+    cpu->var += arg->integer;
     break;
   case 'D':
-      cpu->var -= arg->integer;
+    cpu->var -= arg->integer;
     break;
   case 'B':
-      blockExecutingProcessManager(pm);
+    blockExecutingProcessManager(pm);
     break;
 
   case 'E':

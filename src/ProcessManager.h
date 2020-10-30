@@ -16,7 +16,7 @@ struct ProcessManager{
   Process* (*runSchedulingPolicy)(ProcessManager*);
 };
 
-ProcessManager* initProcessManager();
+ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManager*));
 void freeProcessManager(ProcessManager* pm);
 void stepTimeProcessManager(ProcessManager* pm);
 /* void addProcessProcessManager(ProcessManager* pm, Process* p); */

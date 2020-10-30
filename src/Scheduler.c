@@ -1,15 +1,14 @@
 #include "Scheduler.h"
 
-int round_robin(ProcessManager* pm){
+Process* round_robin(ProcessManager* pm){
     int* ready_pid = (int*)getByIndexList(pm->ready_processes, 0);
-    insertAtEndList(pm->ready_processes,
-                    &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
-                    );
-    pm->executing_process = *ready_pid;
-    return 0;
+    /* insertAtEndList(pm->ready_processes, */
+    /*                 &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id) */
+    /*                 ); */
+    return ((Process*)getArrayList(pm->pcb_table,*ready_pid));
 }
 
-int priorityScheduling(ProcessManager* pm){
+Process* priorityScheduling(ProcessManager* pm){
   insertAtEndList(pm->ready_processes,
                   &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
                   );

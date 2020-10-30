@@ -4,6 +4,6 @@
 /* struct roundRobin{ */
 
 /* }; */
-int round_robin(ProcessManager* pm);
-int priorityScheduling(ProcessManager* pm);
+Process* round_robin(ProcessManager* pm);
+Process* priorityScheduling(ProcessManager* pm);
 #endif
