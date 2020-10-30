@@ -13,7 +13,7 @@ struct ProcessManager{
   ArrayList pcb_table;
   List* blocked_processes;
   int last_process_id;
-  int (*runSchedulingPolicy)(ProcessManager*);
+  Process* (*runSchedulingPolicy)(ProcessManager*);
 };
 
 ProcessManager* initProcessManager();
@@ -24,4 +24,5 @@ int newPIDProcessManager(ProcessManager* pm);
 void contextSwitchProcessManager(ProcessManager* pm, Process* p);
 void forkProcessManager(ProcessManager* pm, Process* p, int pc_diff);
 Process* newProcessProcessManager(ProcessManager* pm);
+void unblockFirstProcess(ProcessManager* pm);
 #endif

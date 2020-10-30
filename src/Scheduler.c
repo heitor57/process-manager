@@ -1,6 +1,14 @@
 #include "Scheduler.h"
-ProcessManager* round_robin(ProcessManager* pm){
 
+Process* round_robin(ProcessManager* pm){
+
+    int executing_process_index = pm->executing_process;
+    int end_of_list = sizeArrayList(pm->pcb_table);
+    
+    if (executing_process_index == end_of_list -1) { // se esta no final da lista, volta pro inicio
+        return (Process*)getArrayList(pm->pcb_table, 0);
+    return (Process*)getArrayList(pm->pcb_table, pm->executing_process);
+ 
 }
 
 int priorityScheduling(ProcessManager* pm){

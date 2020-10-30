@@ -25,13 +25,16 @@ void freeProcessManager(ProcessManager* pm){
 }
 
 void stepTimeProcessManager(ProcessManager* pm){
-  pm->runSchedulingPolicy(pm);
+  Process* p = pm->runSchedulingPolicy(pm);
+  contextSwitchProcessManager(pm,p);
   searchDecodeRunCPU(pm->cpu);
+  p->cpu_usage++;
   pm->time+=1;
 }
 
 Process* newProcessProcessManager(ProcessManager* pm){
   Process* p = initProcess();
+  p->init_time = pm->time;
   p->id = newPIDProcessManager(pm);
   addByIndexArrayList(pm->pcb_table,p,p->id);
   insertAtEndList(pm->ready_processes,&(p->id));
@@ -51,17 +54,20 @@ int newPIDProcessManager(ProcessManager* pm){
 /* } */
 
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
-  Process* executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
-  if(p->id != executing_process->id){
-    *(executing_process->pc)=pm->cpu->pc;
-    executing_process->var=pm->cpu->var;
-    executing_process->program=pm->cpu->program;
-
+  if(p->id != pm->executing_process){
+    if(pm->executing_process != -1){
+      Process* executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
+      *(executing_process->pc)=pm->cpu->pc;
+      executing_process->var=pm->cpu->var;
+      executing_process->program=pm->cpu->program;
+      executing_process->state = Ready;
+      insertAtEndList(pm->ready_processes,&(executing_process->id));
+    }
     pm->cpu->pc=*(p->pc);
     pm->cpu->var=p->var;
     pm->cpu->program=p->program;
-    insertAtEndList(pm->ready_processes,&(executing_process->id));
     pm->executing_process=p->id;
+    p->state = Executing;
   }
 }
 
@@ -79,3 +85,10 @@ void forkProcessManager(ProcessManager* pm, Process* p, int pc_diff){
   insertAtEndList(pm->ready_processes, &(newProcess->id));
 }
 
+void unblockFirstProcess(ProcessManager* pm) {
+  Node *node = getFirstNodeList(pm->blocked_processes);
+  Process* process = (Process*)node->object;
+  process->state = Ready;
+  insertAtEndList(pm->ready_processes, process);
+  removeFromStartList(pm->blocked_processes);
+}

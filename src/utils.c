@@ -28,10 +28,10 @@ ArrayList load_program(char *file_name){
   return program;
 }
 
-void unblockFirstProcess(List* blocked_processes, List* ready_processes) {
-  Node *node = getFirstNodeList(blocked_processes);
-  Process* process = node->object;
-  process->state = Ready;
-  insertAtEndList(ready_processes, process);
-  removeFromStartList(blocked_processes);
-}
+/* void unblockFirstProcess(List* blocked_processes, List* ready_processes) { */
+/*   Node *node = getFirstNodeList(blocked_processes); */
+/*   Process* process = node->object; */
+/*   process->state = Ready; */
+/*   insertAtEndList(ready_processes, process); */
+/*   removeFromStartList(blocked_processes); */
+/* } */
