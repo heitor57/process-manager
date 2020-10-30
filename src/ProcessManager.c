@@ -65,9 +65,9 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   }
 }
 
-void forkProcessManager(ProcessManager* pm, Process* p){
+void forkProcessManager(ProcessManager* pm, Process* p, int pc_diff){
   Process* newProcess = initProcess();
-  *(newProcess->pc) = *(p->pc);
+  *(newProcess->pc) = *(p->pc)+pc_diff;
   newProcess->var = p->var;
   newProcess->program = duplicateStringArrayList(p->program);
   newProcess->priority = p->priority;
