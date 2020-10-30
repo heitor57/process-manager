@@ -18,7 +18,8 @@ ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManage
   pm->blocked_processes=createList(NULL);
   pm->last_process_id=-1;
   pm->runSchedulingPolicy=runSchedulingPolicy;
-  pm->mean_return_time = 0;
+  pm->sum_return_time = 0;
+  pm->num_finished = 0;
   return pm;
 }
 
