@@ -173,7 +173,7 @@ void blockExecuting(ProcessManager* pm){
    insertAtEndList(pm->blocked_processes,
                     &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
                     );
-    &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
+    ((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
     pm->executing_process = -1;
 }
 void finishExecutingProcessManager(ProcessManager* pm){
