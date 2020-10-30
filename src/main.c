@@ -67,7 +67,14 @@ int main(void){
 
           break;
         case 'T':
-          // print mean return time
+          if((rchildpid = fork()) == -1){
+            perror("fork");
+            exit(1);
+          }
+          wait(rchildpid);
+          printf("The mean return time is %lf\n",double(pm->sum_return_time)
+              /double(pm->num_finished));
+
           break;
         default:
           printf("%s is a invalid instruction\n",readbuffer);
