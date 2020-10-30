@@ -64,5 +64,7 @@ void forkProcessManager(ProcessManager* pm, Process* p){
   newProcess->init_time = pm->time;
   newProcess->id = newPIDProcessManager(pm);
   newProcess->parent_id = p->id;
+  addByIndexArrayList(pm->pcb_table,newProcess,newProcess->id);
+  insertAtEndList(pm->ready_processes, newProcess);
 }
 
