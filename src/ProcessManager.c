@@ -115,6 +115,7 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
     break;
 
   case 'F':
+    forkProcessManager(pm, (Process*)getArrayList(pm->pcb_table, pm->executing_process), arg->integer);
     break;
   case 'R':
     cpu->pc = 0;
