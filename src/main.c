@@ -49,7 +49,7 @@ int main(void){
           break;
         case 'U':
           // unblock first process
-          unblockFirstProcess(pm->blocked_processes, pm->ready_processes); 
+          unblockFirstProcess(pm); 
           break;
         case 'P':
           // print state

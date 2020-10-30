@@ -6,8 +6,8 @@ Process* initProcess(){
   Process* p = malloc(sizeof(Process));
   p->cpu_usage=0;
   p->state=Ready;
-  p->cpu_usage=0;
   p->init_time=0;
+  p->priority=0;
   p->pc = NULL;
   /* p->pc = malloc(sizeof(int)); */
   if (p==NULL){
