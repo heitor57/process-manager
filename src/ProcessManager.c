@@ -87,7 +87,7 @@ void forkProcessManager(ProcessManager* pm, Process* p, int pc_diff){
   insertAtEndList(pm->ready_processes, &(newProcess->id));
 }
 
-void unblockFirstProcess(ProcessManager* pm) {
+void unblockFirstProcessManager(ProcessManager* pm) {
   Node *node = getFirstNodeList(pm->blocked_processes);
   Process* process = (Process*)node->object;
   process->state = Ready;
@@ -108,7 +108,7 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
       cpu->var -= arg->integer;
     break;
   case 'B':
-      blockExecuting(pm);
+      blockExecutingProcessManager(pm);
     break;
 
   case 'E':
@@ -169,7 +169,7 @@ void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
   cpu->pc++;
 }
 
-void blockExecuting(ProcessManager* pm){
+void blockExecutingProcessManagr(ProcessManager* pm){
    insertAtEndList(pm->blocked_processes,
                     &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
                     );

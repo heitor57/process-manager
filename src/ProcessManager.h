@@ -24,9 +24,9 @@ int newPIDProcessManager(ProcessManager* pm);
 void contextSwitchProcessManager(ProcessManager* pm, Process* p);
 void forkProcessManager(ProcessManager* pm, Process* p, int pc_diff);
 Process* newProcessProcessManager(ProcessManager* pm);
-void unblockFirstProcess(ProcessManager* pm);
+void unblockFirstProcessManager(ProcessManager* pm);
 void finishProcessProcessManager(ProcessManager* pm);
-void blockExecuting(ProcessManager* pm);
+void blockExecutingProcessManager(ProcessManager* pm);
 
 void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm);
 

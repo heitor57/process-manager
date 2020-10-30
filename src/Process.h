@@ -19,6 +19,6 @@ Process* loadProgramProcess(Process* p, char* file_name);
 /* readInput */
 /* createProcess */
 /* processSwitch */
-/* unblockFirstProcess */
+/* unblockFirstProcessManager */
 /* freeProcess */
 #endif
