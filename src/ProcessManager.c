@@ -4,6 +4,14 @@
 #include "ArrayList.h"
 #include "utils.h"
 #include "CPU.h"
+bool integerEquals(const Object o1,const Object o2){
+  int* v1= (int*)o1;
+  int* v2= (int*)o2;
+  if(*v1 == *v2)
+    return true;
+  else
+    return false;
+}
 
 ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManager*)){
   ProcessManager* pm = malloc(sizeof(ProcessManager));
@@ -13,9 +21,9 @@ ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManage
   pm->time=0;
   pm->cpu=initCPU();
   pm->executing_process=-1;
-  pm->ready_processes=createList(NULL);
+  pm->ready_processes=createList(integerEquals);
   pm->pcb_table=createArrayList(NULL);
-  pm->blocked_processes=createList(NULL);
+  pm->blocked_processes=createList(integerEquals);
   pm->last_process_id=-1;
   pm->runSchedulingPolicy=runSchedulingPolicy;
   pm->sum_return_time = 0;
@@ -31,19 +39,14 @@ void freeProcessManager(ProcessManager* pm){
 }
 /* #include "Scheduler.h" */
 void stepTimeProcessManager(ProcessManager* pm){
-  /* printf("Stepping one unit of time\n"); */
-  /* printf("%p\n",pm->runSchedulingPolicy); */
-  /* printf("%d\n",(*pm->runSchedulingPolicy)(pm)->id); */
-  /* Process* p = round_robin(pm); */
-  Process* p = pm->runSchedulingPolicy(pm);
-  /* Process* p = NULL; */
-  /* printf("Scheduled\n"); */
-  /* printf("scheduled p->id = %d\n",p->id); */
-  contextSwitchProcessManager(pm,p);
-  searchDecodeRunCPU(pm->cpu,pm);
-  p->cpu_usage++;
-  /* printf("aquiiii%d\n",pm->time); */
-  pm->time+=1;
+  if(sizeList(pm->blocked_processes)+sizeList(pm->ready_processes)+
+     (pm->executing_process == -1? 0 : 1) > 0){
+    Process* p = pm->runSchedulingPolicy(pm);
+    contextSwitchProcessManager(pm,p);
+    searchDecodeRunCPU(pm->cpu,pm);
+    p->cpu_usage++;
+    pm->time+=1;
+  }
 }
 
 Process* newProcessProcessManager(ProcessManager* pm){
@@ -85,6 +88,7 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p){
     pm->cpu->program=p->program;
     pm->executing_process=p->id;
     p->state = Executing;
+    removeObjectList(pm->ready_processes, &(p->id));
   }
 }
 

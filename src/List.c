@@ -155,3 +155,29 @@ int getObjectList(List* li, Object o){
     }
     return -1;
 }
+
+
+int removeObjectList(List* li, Object o){
+  if(li == NULL || li->start == NULL || o == NULL)
+    return -1;
+  Node *node = li->start; //first node
+  int i = 1;
+  Node *previous_node= NULL;
+  while(node != NULL && i < li->qty){
+    if(li->equals(node->object,o)){
+      break;
+    }
+    previous_node = node;
+    node = node->next;
+    i++;
+  }
+  if(previous_node != NULL && node !=NULL){
+    previous_node->next = node->next;
+  }
+  if(i == 1){
+    li->start = node->next;
+  }
+  if(node == NULL)
+    free(node);
+  return -1;
+}
