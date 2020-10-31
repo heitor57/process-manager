@@ -31,17 +31,18 @@ void freeProcessManager(ProcessManager* pm){
 }
 /* #include "Scheduler.h" */
 void stepTimeProcessManager(ProcessManager* pm){
-  printf("Stepping one unit of time\n");
+  /* printf("Stepping one unit of time\n"); */
   /* printf("%p\n",pm->runSchedulingPolicy); */
   /* printf("%d\n",(*pm->runSchedulingPolicy)(pm)->id); */
   /* Process* p = round_robin(pm); */
   Process* p = pm->runSchedulingPolicy(pm);
   /* Process* p = NULL; */
-  printf("Scheduled\n");
-  printf("scheduled p->id = %d\n",p->id);
+  /* printf("Scheduled\n"); */
+  /* printf("scheduled p->id = %d\n",p->id); */
   contextSwitchProcessManager(pm,p);
   searchDecodeRunCPU(pm->cpu,pm);
   p->cpu_usage++;
+  /* printf("aquiiii%d\n",pm->time); */
   pm->time+=1;
 }
 
@@ -67,12 +68,15 @@ int newPIDProcessManager(ProcessManager* pm){
 /* } */
 
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
+  Process* executing_process=NULL;
+  if(pm->executing_process != -1){
+    executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
+    *(executing_process->pc)=pm->cpu->pc;
+    executing_process->var=pm->cpu->var;
+    executing_process->program=pm->cpu->program;
+  }
   if(p->id != pm->executing_process){
     if(pm->executing_process != -1){
-      Process* executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
-      *(executing_process->pc)=pm->cpu->pc;
-      executing_process->var=pm->cpu->var;
-      executing_process->program=pm->cpu->program;
       executing_process->state = Ready;
       insertAtEndList(pm->ready_processes,&(executing_process->id));
     }
@@ -107,11 +111,11 @@ void unblockFirstProcessManager(ProcessManager* pm) {
 }
 
 void blockExecutingProcessManager(ProcessManager* pm){
-   insertAtEndList(pm->blocked_processes,
-                    &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
-                    );
-    ((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
-    pm->executing_process = -1;
+  insertAtEndList(pm->blocked_processes,
+                  &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
+                  );
+  ((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
+  pm->executing_process = -1;
 }
 void finishExecutingProcessManager(ProcessManager* pm){
   Process* p = getArrayList(pm->pcb_table, pm->executing_process);
@@ -128,6 +132,7 @@ void finishExecutingProcessManager(ProcessManager* pm){
 int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessManager* pm){
   switch(instruction_type){
   case 'S':
+    printf("ewqeqw");
     cpu->var = arg->integer;
     break;
   case 'A':

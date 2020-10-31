@@ -52,6 +52,7 @@ int main(void){
         case 'Q':
           printf("Executing Q instruction\n");
           // Execute one instruction in CPU
+          /* printf("FORK: %d\n",pm->time); */
           stepTimeProcessManager(pm);
           break;
         case 'U':
@@ -67,6 +68,7 @@ int main(void){
           if (rchildpid == 0){
             printState(pm);
           }
+
 
           break;
         case 'T':
