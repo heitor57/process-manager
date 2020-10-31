@@ -39,9 +39,15 @@ void freeProcessManager(ProcessManager* pm){
 }
 /* #include "Scheduler.h" */
 void stepTimeProcessManager(ProcessManager* pm){
+    printf("AQ\n");
   if(sizeList(pm->blocked_processes)+sizeList(pm->ready_processes)+
      (pm->executing_process == -1? 0 : 1) > 0){
-    Process* p = pm->runSchedulingPolicy(pm);
+    printf("@\n");
+    Process* p =NULL;
+    if(sizeList(pm->ready_processes)>0)
+      p= pm->runSchedulingPolicy(pm);
+    printf("%p\n",p);
+    printf("#\n");
     contextSwitchProcessManager(pm,p);
     searchDecodeRunCPU(pm->cpu,pm);
     p->cpu_usage++;
@@ -78,17 +84,19 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p){
     executing_process->var=pm->cpu->var;
     executing_process->program=pm->cpu->program;
   }
-  if(p->id != pm->executing_process){
-    if(pm->executing_process != -1){
-      executing_process->state = Ready;
-      insertAtEndList(pm->ready_processes,&(executing_process->id));
+  if(p!=NULL){
+    if(p->id != pm->executing_process){
+      if(pm->executing_process != -1){
+        executing_process->state = Ready;
+        insertAtEndList(pm->ready_processes,&(executing_process->id));
+      }
+      pm->cpu->pc=*(p->pc);
+      pm->cpu->var=p->var;
+      pm->cpu->program=p->program;
+      pm->executing_process=p->id;
+      p->state = Executing;
+      removeObjectList(pm->ready_processes, &(p->id));
     }
-    pm->cpu->pc=*(p->pc);
-    pm->cpu->var=p->var;
-    pm->cpu->program=p->program;
-    pm->executing_process=p->id;
-    p->state = Executing;
-    removeObjectList(pm->ready_processes, &(p->id));
   }
 }
 
