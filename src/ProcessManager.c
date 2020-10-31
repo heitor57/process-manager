@@ -42,16 +42,19 @@ void stepTimeProcessManager(ProcessManager* pm){
   if(sizeList(pm->blocked_processes)+sizeList(pm->ready_processes)+
      (pm->executing_process == -1? 0 : 1) > 0){
     Process* p = NULL;
-    printf("Scheduling\n");
+    printf("\tScheduling\n");
     if(pm->cpu->used_time >= pm->cpu->time_slice)
       p=pm->runSchedulingPolicy(pm);
-    printf("Context switch\n");
-    contextSwitchProcessManager(pm,p);
-    printf("Search, decode and run\n");
-    searchDecodeRunCPU(pm->cpu,pm);
-    if(pm->executing_process!=-1){
-      Process* pt = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
-      pt->cpu_usage++;
+    printf("%p %d\n",p,pm->executing_process);
+    if(p!=NULL || pm->executing_process!=-1){
+      printf("\tContext switch\n");
+      contextSwitchProcessManager(pm,p);
+      printf("\tSearch, decode and run\n");
+      searchDecodeRunCPU(pm->cpu,pm);
+      if(pm->executing_process!=-1){
+        Process* pt = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
+        pt->cpu_usage++;
+      }
     }
     pm->time+=1;
   }
@@ -212,6 +215,7 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
 
 void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
   char* instruction = getArrayList(cpu->program,cpu->pc);
+  printf("\t\t%s\n",instruction);
   parseAndExecInstructionCPU(cpu,instruction,pm);
   cpu->pc++;
   cpu->used_time++;

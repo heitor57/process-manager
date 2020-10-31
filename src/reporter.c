@@ -24,22 +24,27 @@ void printState(ProcessManager* pm) {
 
   printf("****************************************************************\n");
   printf("Estado do sistema:\n");
-  printf("****************************************************************\\\\n\n");
+  printf("****************************************************************\\\\\n\n");
 
   printf("TEMPO ATUAL: %d\n", pm->time);
-  printf("PROCESSO EXECUTANDO:\n");
-  printf("PID\tPPID\tPrioridade\tValor\tTempo início\tCPU usada até o momento\n");
-  Process* executing_process = (Process*)getArrayList(pm->pcb_table, pm->executing_process);
-  printf("%d\t%d\t%d\t\t%d\t%d\t\t%d\n", executing_process->id, executing_process->parent_id, 
-         executing_process->priority, executing_process->var, 
-         executing_process->init_time, executing_process->cpu_usage);
-
+  if(pm->executing_process!=-1){
+    printf("PROCESSO EXECUTANDO:\n");
+    printf("PID\tPPID\tPrioridade\tValor\tTempo início\tCPU usada até o momento\n");
+    Process* executing_process = (Process*)getArrayList(pm->pcb_table, pm->executing_process);
+    printf("%d\t%d\t%d\t\t%d\t%d\t\t%d\n", executing_process->id, executing_process->parent_id, 
+           executing_process->priority, executing_process->var, 
+           executing_process->init_time, executing_process->cpu_usage);
+  }
 //   printf("BLOQUEADO:\n");
 //   printf("Fila processos bloqueados:\n");
-  printf("PROCESSOS BLOQUEADOS:\n");
-  printProcessList(pm->pcb_table,pm->blocked_processes);
+  if(sizeList(pm->blocked_processes)){
+    printf("PROCESSOS BLOQUEADOS:\n");
+    printProcessList(pm->pcb_table,pm->blocked_processes);
+  }
 
-  printf("PROCESSOS PRONTOS:\n");
-  printProcessList(pm->pcb_table,pm->ready_processes);
+  if(sizeList(pm->ready_processes)){
+    printf("PROCESSOS PRONTOS:\n");
+    printProcessList(pm->pcb_table,pm->ready_processes);
+  }
 }
 

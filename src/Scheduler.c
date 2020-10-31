@@ -11,12 +11,13 @@ Process* round_robin(ProcessManager* pm){
   /* } */
   if(sizeList(pm->ready_processes)>0){
     int* ready_pid = (int*)getByIndexList(pm->ready_processes, 0);
-    /* insertAtEndList(pm->ready_processes, */
-    /*                 &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id) */
-    /*                 ); */
     return ((Process*)getArrayList(pm->pcb_table,*ready_pid));
   }else{
-    return ((Process*)getArrayList(pm->pcb_table,pm->executing_process));
+    if(pm->executing_process==-1){
+      return NULL;
+    }else{
+      return ((Process*)getArrayList(pm->pcb_table,pm->executing_process));
+    }
   }
 }
 
