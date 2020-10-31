@@ -132,7 +132,8 @@ void finishExecutingProcessManager(ProcessManager* pm){
 int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessManager* pm){
   switch(instruction_type){
   case 'S':
-    printf("ewqeqw");
+    printf("S\n");
+    printf("%d\n",arg->integer);
     cpu->var = arg->integer;
     break;
   case 'A':
@@ -188,10 +189,11 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
     case 'A':
     case 'D':
     case 'F':
-      arg.integer = strtol(instruction+1,NULL,10);
+      arg.integer = strtol(token,NULL,10);
+      printf("%d\n",arg.integer);
       break;
     case 'R':
-      arg.string = instruction+2;
+      arg.string = token;
       break;
     }
     return execInstructionCPU(cpu, instruction_type, &arg, pm);
