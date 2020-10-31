@@ -94,7 +94,7 @@ int main(void){
     close(fd[0]);
   }else{
     close(fd[0]);
-    while(1){
+    while(strcmp(readbuffer,"T")){
       // commander
       fgets(readbuffer,sizeof(readbuffer),stdin);
       readbuffer[strlen(readbuffer)-1] = 0;
