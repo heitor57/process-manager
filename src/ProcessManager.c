@@ -141,6 +141,8 @@ void blockExecutingProcessManager(ProcessManager* pm){
   insertAtEndList(pm->blocked_processes,
                   &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id)
                   );
+  pm->cpu->time_slice=0;
+  pm->cpu->used_time=0;
   ((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
   pm->executing_process = -1;
 }
