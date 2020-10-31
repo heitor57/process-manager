@@ -1,11 +1,23 @@
 #include "Scheduler.h"
 
 Process* round_robin(ProcessManager* pm){
+  pm->cpu->used_time=0;
+  pm->cpu->time_slice=1;
+  /* if(sizeList(pm->ready_processes)==0){ */
+  /*   if(pm->executing_process!=-1) */
+  /*     return ((Process*)getArrayList(pm->pcb_table,pm->executing_process)); */
+  /*   else */
+  /*     return NULL; */
+  /* } */
+  if(sizeList(pm->ready_processes)>0){
     int* ready_pid = (int*)getByIndexList(pm->ready_processes, 0);
     /* insertAtEndList(pm->ready_processes, */
     /*                 &(((Process*)getArrayList(pm->pcb_table,pm->executing_process))->id) */
     /*                 ); */
     return ((Process*)getArrayList(pm->pcb_table,*ready_pid));
+  }else{
+    return ((Process*)getArrayList(pm->pcb_table,pm->executing_process));
+  }
 }
 
 Process* priorityScheduling(ProcessManager* pm){

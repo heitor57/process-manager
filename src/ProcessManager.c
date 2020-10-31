@@ -39,24 +39,21 @@ void freeProcessManager(ProcessManager* pm){
 }
 /* #include "Scheduler.h" */
 void stepTimeProcessManager(ProcessManager* pm){
-    printf("AQ\n");
   if(sizeList(pm->blocked_processes)+sizeList(pm->ready_processes)+
      (pm->executing_process == -1? 0 : 1) > 0){
-    printf("@\n");
-    Process* p =NULL;
-    if(sizeList(pm->ready_processes)>0)
-      p = pm->runSchedulingPolicy(pm);
-    printf("%p\n",p);
-    printf("#\n");
+    Process* p = NULL;
+    printf("Scheduling\n");
+    if(pm->cpu->used_time >= pm->cpu->time_slice)
+      p=pm->runSchedulingPolicy(pm);
+    printf("Context switch\n");
     contextSwitchProcessManager(pm,p);
+    printf("Search, decode and run\n");
     searchDecodeRunCPU(pm->cpu,pm);
-    printf("FFFF\n");
     if(pm->executing_process!=-1){
       Process* pt = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
       pt->cpu_usage++;
     }
     pm->time+=1;
-    printf("FFFF\n");
   }
 }
 
@@ -83,25 +80,24 @@ int newPIDProcessManager(ProcessManager* pm){
 
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   Process* executing_process=NULL;
-  if(p!=NULL){
-    if(p->id != pm->executing_process){
-      if(pm->executing_process != -1){
-        executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
-        *(executing_process->pc)=pm->cpu->pc;
-        executing_process->var=pm->cpu->var;
-        executing_process->program=pm->cpu->program;
-        /* } */
-        /*     if(pm->executing_process != -1){ */
-        executing_process->state = Ready;
-        insertAtEndList(pm->ready_processes,&(executing_process->id));
-      }
-      pm->cpu->pc=*(p->pc);
-      pm->cpu->var=p->var;
-      pm->cpu->program=p->program;
-      pm->executing_process=p->id;
-      p->state = Executing;
-      removeObjectList(pm->ready_processes, &(p->id));
+  if(p!=NULL && p->id != pm->executing_process){
+    if(pm->executing_process != -1){
+      executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
+      *(executing_process->pc)=pm->cpu->pc;
+      executing_process->var=pm->cpu->var;
+      executing_process->program=pm->cpu->program;
+      executing_process->program=pm->cpu->program;
+      /* } */
+      /*     if(pm->executing_process != -1){ */
+      executing_process->state = Ready;
+      insertAtEndList(pm->ready_processes,&(executing_process->id));
     }
+    pm->cpu->pc=*(p->pc);
+    pm->cpu->var=p->var;
+    pm->cpu->program=p->program;
+    pm->executing_process=p->id;
+    p->state = Executing;
+    removeObjectList(pm->ready_processes, &(p->id));
   }
 }
 
@@ -149,8 +145,6 @@ void finishExecutingProcessManager(ProcessManager* pm){
 int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessManager* pm){
   switch(instruction_type){
   case 'S':
-    printf("S\n");
-    printf("%d\n",arg->integer);
     cpu->var = arg->integer;
     break;
   case 'A':
@@ -207,7 +201,6 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
     case 'D':
     case 'F':
       arg.integer = strtol(token,NULL,10);
-      printf("%d\n",arg.integer);
       break;
     case 'R':
       arg.string = token;
@@ -221,5 +214,6 @@ void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
   char* instruction = getArrayList(cpu->program,cpu->pc);
   parseAndExecInstructionCPU(cpu,instruction,pm);
   cpu->pc++;
+  cpu->used_time++;
 }
 

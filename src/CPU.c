@@ -8,6 +8,9 @@
 
 CPU* initCPU(){
   CPU* cpu = malloc(sizeof(CPU));
+  cpu->used_time =0;
+  cpu->time_slice =0;
+  cpu->program=NULL;
   return cpu;
 }
 

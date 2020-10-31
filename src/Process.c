@@ -8,6 +8,7 @@ Process* initProcess(){
   p->state=Ready;
   p->init_time=0;
   p->priority=0;
+  p->parent_id=-1;
   p->pc = NULL;
   /* p->pc = malloc(sizeof(int)); */
   if (p==NULL){
