@@ -8,11 +8,11 @@ void printProcessList(ArrayList pcb_table,List* process_list) {
     Node *node = getFirstNodeList(process_list);
     Process* process;
     int* pid;
+    printf("PID\tPPID\tPrioridade\tValor\tTempo início\tCPU usada até o momento\n");
     while(node != NULL){
       pid = ((int*)node->object);
       process = (Process*)getArrayList(pcb_table, *pid);
       /* process = ((Process*)node->object); */
-      printf("PID\tPPID\tPrioridade\tValor\tTempo início\tCPU usada até o momento\n");
       printf("%d\t%d\t%d\t\t%d\t%d\t\t%d\n", process->id, process->parent_id, 
              process->priority, process->var, 
              process->init_time, process->cpu_usage);
@@ -46,5 +46,6 @@ void printState(ProcessManager* pm) {
     printf("PROCESSOS PRONTOS:\n");
     printProcessList(pm->pcb_table,pm->ready_processes);
   }
+  printf("****************************************************************\n");
 }
 

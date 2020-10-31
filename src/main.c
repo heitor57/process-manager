@@ -50,7 +50,6 @@ int main(void){
       if((input_string_size==2 && readbuffer[1] == '\n') || input_string_size==1){
         switch(readbuffer[0]){
         case 'Q':
-          printf("Executing Q instruction\n");
           // Execute one instruction in CPU
           /* printf("FORK: %d\n",pm->time); */
           stepTimeProcessManager(pm);
@@ -69,8 +68,6 @@ int main(void){
             printState(pm);
             exit(0);
           }
-
-
           break;
         case 'T':
           if((rchildpid = fork()) == -1){
