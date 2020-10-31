@@ -29,10 +29,15 @@ void freeProcessManager(ProcessManager* pm){
   else
     perror("Error in free Process Manager");
 }
-
+/* #include "Scheduler.h" */
 void stepTimeProcessManager(ProcessManager* pm){
   printf("Stepping one unit of time\n");
+  /* printf("%p\n",pm->runSchedulingPolicy); */
+  /* printf("%d\n",(*pm->runSchedulingPolicy)(pm)->id); */
+  /* Process* p = round_robin(pm); */
   Process* p = pm->runSchedulingPolicy(pm);
+  /* Process* p = NULL; */
+  printf("Scheduled\n");
   printf("scheduled p->id = %d\n",p->id);
   contextSwitchProcessManager(pm,p);
   searchDecodeRunCPU(pm->cpu,pm);
@@ -168,10 +173,10 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
     }
   }else{
     token = strtok(NULL, " ");
-    if(token[0] != ' '){
-      printf("Missing space between instruction and argument\n");
-      return 1;
-    }
+    /* if(token[0] != ' '){ */
+    /*   printf("Missing space between instruction and argument\n"); */
+    /*   return 1; */
+    /* } */
 
     switch(instruction_type){
     case 'S':

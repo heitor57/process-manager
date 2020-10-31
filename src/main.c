@@ -36,8 +36,9 @@ int main(void){
     dup2(fd[0],STDIN_FILENO);
     printf("Initializating process manager\n");
     ProcessManager* pm = initProcessManager(round_robin);
+    int input_string_size;
     /* init_process = startInitProcess(); */
-    init_process = initProcess();
+    /* init_process = initProcess(); */
     init_process = newProcessProcessManager(pm);
     loadProgramProcess(init_process,"init");
     /* addProcessProcessManager(pm, init_process); */
@@ -45,7 +46,8 @@ int main(void){
     while(strcmp(readbuffer,"T")){
       nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
       /* printf("%d\n",nbytes); */
-      if(nbytes == 2/sizeof(char)){
+      input_string_size=strlen(readbuffer);
+      if((input_string_size==2 && readbuffer[1] == '\n') || input_string_size==1){
         switch(readbuffer[0]){
         case 'Q':
           printf("Executing Q instruction\n");

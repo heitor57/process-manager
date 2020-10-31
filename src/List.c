@@ -126,7 +126,7 @@ Node* getFirstNodeList(List* li){
 }
 
 Object getByIndexList(List* li, int pos){
-    if(li == NULL || li->start == NULL || pos <= 0)
+    if(li == NULL || li->start == NULL || pos < 0)
         return NULL;
     Node *node = li->start; //first node
     int i = 1;
