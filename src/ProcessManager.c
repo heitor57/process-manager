@@ -56,8 +56,8 @@ void stepTimeProcessManager(ProcessManager* pm){
         pt->cpu_usage++;
       }
     }
-    pm->time+=1;
   }
+  pm->time+=1;
 }
 
 Process* newProcessProcessManager(ProcessManager* pm){
