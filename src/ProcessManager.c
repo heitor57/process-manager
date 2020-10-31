@@ -51,8 +51,10 @@ void stepTimeProcessManager(ProcessManager* pm){
     contextSwitchProcessManager(pm,p);
     searchDecodeRunCPU(pm->cpu,pm);
     printf("FFFF\n");
-    if(p!=NULL)
-      p->cpu_usage++;
+    if(pm->executing_process!=-1){
+      Process* pt = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
+      pt->cpu_usage++;
+    }
     pm->time+=1;
     printf("FFFF\n");
   }
@@ -81,15 +83,15 @@ int newPIDProcessManager(ProcessManager* pm){
 
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   Process* executing_process=NULL;
-  if(pm->executing_process != -1){
-    executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
-    *(executing_process->pc)=pm->cpu->pc;
-    executing_process->var=pm->cpu->var;
-    executing_process->program=pm->cpu->program;
-  }
   if(p!=NULL){
     if(p->id != pm->executing_process){
       if(pm->executing_process != -1){
+        executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
+        *(executing_process->pc)=pm->cpu->pc;
+        executing_process->var=pm->cpu->var;
+        executing_process->program=pm->cpu->program;
+        /* } */
+        /*     if(pm->executing_process != -1){ */
         executing_process->state = Ready;
         insertAtEndList(pm->ready_processes,&(executing_process->id));
       }
