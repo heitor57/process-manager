@@ -67,6 +67,7 @@ int main(void){
           }
           if (rchildpid == 0){
             printState(pm);
+            exit(0);
           }
 
 
@@ -79,6 +80,7 @@ int main(void){
           if(rchildpid ==0){
             printf("The mean turnaround time is %lf\n",(double)(pm->sum_return_time)
                    /(double)(pm->num_finished));
+            exit(0);
           }
           break;
         default:
