@@ -45,13 +45,16 @@ void stepTimeProcessManager(ProcessManager* pm){
     printf("@\n");
     Process* p =NULL;
     if(sizeList(pm->ready_processes)>0)
-      p= pm->runSchedulingPolicy(pm);
+      p = pm->runSchedulingPolicy(pm);
     printf("%p\n",p);
     printf("#\n");
     contextSwitchProcessManager(pm,p);
     searchDecodeRunCPU(pm->cpu,pm);
-    p->cpu_usage++;
+    printf("FFFF\n");
+    if(p!=NULL)
+      p->cpu_usage++;
     pm->time+=1;
+    printf("FFFF\n");
   }
 }
 

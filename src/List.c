@@ -177,7 +177,8 @@ int removeObjectList(List* li, Object o){
   if(i == 1){
     li->start = node->next;
   }
-  if(node == NULL)
+  li->qty--;
+  if(node != NULL)
     free(node);
   return -1;
 }
