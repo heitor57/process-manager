@@ -32,4 +32,5 @@ void finishExecutingProcessManager(ProcessManager* pm);
 
 void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm);
 
+void updateForkProcessManager(ProcessManager* pm, CPU* cpu, Process* p);
 #endif

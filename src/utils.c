@@ -11,7 +11,8 @@ ArrayList load_program(char *file_name){
 
   char *aux;
   if(program_file==NULL){
-    printf("Error opening file\n");
+    printf("\"%s\" ",file_name);
+    perror("error opening file");
     return NULL;
   }
  /*Create array list*/

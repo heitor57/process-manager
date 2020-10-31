@@ -40,6 +40,7 @@ bool needArgInstructionCPU(char instruction){
   case 'A':
   case 'D':
   case 'F':
+  case 'R':
     return true;
     break;
   default:

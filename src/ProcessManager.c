@@ -45,7 +45,7 @@ void stepTimeProcessManager(ProcessManager* pm){
     printf("\tScheduling\n");
     if(pm->cpu->used_time >= pm->cpu->time_slice)
       p=pm->runSchedulingPolicy(pm);
-    printf("%p %d\n",p,pm->executing_process);
+    /* printf("%p %d\n",p,pm->executing_process); */
     if(p!=NULL || pm->executing_process!=-1){
       printf("\tContext switch\n");
       contextSwitchProcessManager(pm,p);
@@ -86,7 +86,8 @@ void updateProcessCPUProcessManager(CPU* cpu, Process* p){
   *(p->pc)=cpu->pc;
   p->var=cpu->var;
   if(p->program != cpu->program){
-    free(p->program);
+    /* printf("DIFF E E E%p %p\n",cpu->program,p->program); */
+    freeArrayList(p->program);
     p->program=cpu->program;
   }
 }
@@ -146,7 +147,7 @@ void blockExecutingProcessManager(ProcessManager* pm){
 void finishExecutingProcessManager(ProcessManager* pm){
   Process* p = getArrayList(pm->pcb_table, pm->executing_process);
   free(p->pc);
-  free(p->program);
+  freeArrayList(p->program);
   removeIndexArrayList(pm->pcb_table, pm->executing_process);
   pm->executing_process = -1;
   pm->sum_return_time += pm->time;
@@ -173,12 +174,13 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
     finishExecutingProcessManager(pm);
     break;
   case 'F':
-    forkProcessManager(pm, (Process*)getArrayList(pm->pcb_table, pm->executing_process));
+    updateForkProcessManager(pm, cpu, (Process*)getArrayList(pm->pcb_table, pm->executing_process));
     cpu->pc += arg->integer;
     break;
   case 'R':
-    cpu->pc = 0;
+    cpu->pc = -1;
     cpu->var = rand();
+    /* printf("EEE %s\n",arg->string); */
     cpu->program=load_program(arg->string);
     break;
   }
@@ -206,7 +208,6 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
     /*   printf("Missing space between instruction and argument\n"); */
     /*   return 1; */
     /* } */
-
     switch(instruction_type){
     case 'S':
     case 'A':
@@ -223,7 +224,12 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
 }
 
 void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
+  /* printf("eqweqwe\n"); */
+  /* printf("%d %d\n",cpu->pc, 1); */
+  /* printf("%d %d\n",1, sizeArrayList(cpu->program)); */
+  /* printf("%d %d\n",cpu->pc, sizeArrayList(cpu->program)); */
   char* instruction = (char*)getArrayList(cpu->program,cpu->pc);
+  /* printf("\t\t%s\n",instruction); */
   int size = strlen(instruction)+1;
   char* instruction_copy = malloc(size*sizeof(char));
   strcpy(instruction_copy, instruction);
