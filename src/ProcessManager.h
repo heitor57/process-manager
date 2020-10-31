@@ -24,7 +24,7 @@ void stepTimeProcessManager(ProcessManager* pm);
 /* void addProcessProcessManager(ProcessManager* pm, Process* p); */
 int newPIDProcessManager(ProcessManager* pm);
 void contextSwitchProcessManager(ProcessManager* pm, Process* p);
-void forkProcessManager(ProcessManager* pm, Process* p, int pc_diff);
+void forkProcessManager(ProcessManager* pm, Process* p);
 Process* newProcessProcessManager(ProcessManager* pm);
 void unblockFirstProcessManager(ProcessManager* pm);
 void blockExecutingProcessManager(ProcessManager* pm);

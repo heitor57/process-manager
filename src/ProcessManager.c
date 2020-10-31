@@ -81,15 +81,24 @@ int newPIDProcessManager(ProcessManager* pm){
 /*   addByIndexArrayList(pm->pcb_table, p, p->id); */
 /* } */
 
+
+void updateProcessCPUProcessManager(CPU* cpu, Process* p){
+  *(p->pc)=cpu->pc;
+  p->var=cpu->var;
+  if(p->program != cpu->program){
+    free(p->program);
+    p->program=cpu->program;
+  }
+}
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   Process* executing_process=NULL;
   if(p!=NULL && p->id != pm->executing_process){
     if(pm->executing_process != -1){
       executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
-      *(executing_process->pc)=pm->cpu->pc;
-      executing_process->var=pm->cpu->var;
-      executing_process->program=pm->cpu->program;
-      executing_process->program=pm->cpu->program;
+      updateProcessCPUProcessManager(pm->cpu,executing_process);
+      /* *(executing_process->pc)=pm->cpu->pc; */
+      /* executing_process->var=pm->cpu->var; */
+      /* executing_process->program=pm->cpu->program; */
       /* } */
       /*     if(pm->executing_process != -1){ */
       executing_process->state = Ready;
@@ -103,12 +112,13 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p){
     removeObjectList(pm->ready_processes, &(p->id));
   }
 }
-
-void forkProcessManager(ProcessManager* pm, Process* p, int pc_diff){
+void forkProcessManager(ProcessManager* pm, Process* p){
   Process* newProcess = initProcess();
-  *(newProcess->pc) = *(p->pc)+pc_diff;
+  /* printf("Ewwqe%d \n",p->pc); */
+  *(newProcess->pc) = *(p->pc)+1;
   newProcess->var = p->var;
   newProcess->program = duplicateStringArrayList(p->program);
+  /* printf("EEE\n"); */
   newProcess->priority = p->priority;
   newProcess->state = Ready;
   newProcess->init_time = pm->time;
@@ -159,13 +169,12 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
   case 'B':
     blockExecutingProcessManager(pm);
     break;
-
   case 'E':
     finishExecutingProcessManager(pm);
     break;
-
   case 'F':
-    forkProcessManager(pm, (Process*)getArrayList(pm->pcb_table, pm->executing_process), arg->integer);
+    forkProcessManager(pm, (Process*)getArrayList(pm->pcb_table, pm->executing_process));
+    cpu->pc += arg->integer;
     break;
   case 'R':
     cpu->pc = 0;
@@ -214,10 +223,18 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
 }
 
 void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
-  char* instruction = getArrayList(cpu->program,cpu->pc);
-  printf("\t\t%s\n",instruction);
-  parseAndExecInstructionCPU(cpu,instruction,pm);
+  char* instruction = (char*)getArrayList(cpu->program,cpu->pc);
+  int size = strlen(instruction)+1;
+  char* instruction_copy = malloc(size*sizeof(char));
+  strcpy(instruction_copy, instruction);
+  printf("\t\t%s\n",instruction_copy);
+  parseAndExecInstructionCPU(cpu,instruction_copy,pm);
   cpu->pc++;
   cpu->used_time++;
+  free(instruction_copy);
 }
 
+void updateForkProcessManager(ProcessManager* pm, CPU* cpu, Process* p){
+  updateProcessCPUProcessManager(cpu,p);
+  forkProcessManager(pm, p);
+}
