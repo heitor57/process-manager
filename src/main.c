@@ -48,6 +48,7 @@ int main(void){
       if(nbytes == 2/sizeof(char)){
         switch(readbuffer[0]){
         case 'Q':
+          printf("Executing Q instruction\n");
           // Execute one instruction in CPU
           stepTimeProcessManager(pm);
           break;
@@ -71,10 +72,10 @@ int main(void){
             perror("fork");
             exit(1);
           }
-          wait(rchildpid);
-          printf("The turnaround time is %lf\n",(double)(pm->sum_return_time)
-              /(double)(pm->num_finished));
-
+          if(rchildpid ==0){
+            printf("The mean turnaround time is %lf\n",(double)(pm->sum_return_time)
+                   /(double)(pm->num_finished));
+          }
           break;
         default:
           printf("%s is a invalid instruction\n",readbuffer);

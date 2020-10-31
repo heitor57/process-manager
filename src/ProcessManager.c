@@ -31,7 +31,9 @@ void freeProcessManager(ProcessManager* pm){
 }
 
 void stepTimeProcessManager(ProcessManager* pm){
+  printf("Stepping one unit of time\n");
   Process* p = pm->runSchedulingPolicy(pm);
+  printf("scheduled p->id = %d\n",p->id);
   contextSwitchProcessManager(pm,p);
   searchDecodeRunCPU(pm->cpu,pm);
   p->cpu_usage++;
