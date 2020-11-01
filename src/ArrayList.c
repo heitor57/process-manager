@@ -21,7 +21,7 @@ struct ArrayList_Struct {
   int currentCapacity;
   Object *data;
   int size;
-  Boolean (*equals)(const Object object_1, const Object object_2);
+  bool (*equals)(const Object object_1, const Object object_2);
 };
 
 
@@ -36,7 +36,7 @@ void freeArrayList(const ArrayList list)
 }
 
 
-ArrayList createArrayList(Boolean (*equals)(const Object object_1, const Object object_2))
+ArrayList createArrayList(bool (*equals)(const Object object_1, const Object object_2))
 {
   ArrayList list;
 
@@ -49,7 +49,7 @@ ArrayList createArrayList(Boolean (*equals)(const Object object_1, const Object 
   return list;
 }
 
-Boolean addArrayList(const ArrayList list, Object object)
+bool addArrayList(const ArrayList list, Object object)
 {
   int oldSize = sizeArrayList(list);
   int newCapacity;
@@ -66,10 +66,10 @@ Boolean addArrayList(const ArrayList list, Object object)
       list->currentCapacity = newCapacity;
     }
   (list->data)[oldSize] = object;
-  return TRUE;
+  return true;
 }
 
-Boolean addByIndexArrayList(const ArrayList list, Object object, const int index)
+bool addByIndexArrayList(const ArrayList list, Object object, const int index)
 {
   int oldSize = sizeArrayList(list);
   int newCapacity;
@@ -89,10 +89,10 @@ Boolean addByIndexArrayList(const ArrayList list, Object object, const int index
   for (int i = oldSize; i > index; i--) {
     (list->data)[i] = (list->data)[i-1];
   }
-  return TRUE;
+  return true;
 }
 
-Boolean removeArrayList(const ArrayList list, const Object object)
+bool removeArrayList(const ArrayList list, const Object object)
 {
   int length = sizeArrayList(list);
   int lastIndex = length - 1;
@@ -115,13 +115,13 @@ Boolean removeArrayList(const ArrayList list, const Object object)
 		  list->currentCapacity = newCapacity;
 		}
 	    }
-	  return TRUE;
+	  return true;
 	}
   }
-  return FALSE;
+  return false;
 }
 
-Boolean containsArrayList(const ArrayList list, const Object object)
+bool containsArrayList(const ArrayList list, const Object object)
 {
   return (indexOfArrayList(list, object) > -1);
 }
@@ -141,7 +141,7 @@ int indexOfArrayList(const ArrayList list, const Object object)
   return -1;
 }
 
-Boolean isEmptyArrayList(const ArrayList list)
+bool isEmptyArrayList(const ArrayList list)
 {
   return (0 == sizeArrayList(list));
 }
