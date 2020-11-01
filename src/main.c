@@ -19,7 +19,6 @@ int main(void){
   char readbuffer[80];
   Process *init_process;
   /* int  */
-  int nbytes;
   pipe(fd);
   if(pipe(fd) < 0) {
     perror("pipe");
@@ -44,7 +43,7 @@ int main(void){
     /* addProcessProcessManager(pm, init_process); */
     
     while(strcmp(readbuffer,"T")){
-      nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
+      read(fd[0], readbuffer, sizeof(readbuffer));
       /* printf("%d\n",nbytes); */
       input_string_size=strlen(readbuffer);
       if((input_string_size==2 && readbuffer[1] == '\n') || input_string_size==1){
