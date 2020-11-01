@@ -5,7 +5,7 @@
 typedef struct{
   int var, pc;
   ArrayList program;
-  float time_slice, used_time;
+  int time_slice, used_time;
 }CPU;
 
 typedef union {

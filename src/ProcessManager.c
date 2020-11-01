@@ -42,7 +42,7 @@ void stepTimeProcessManager(ProcessManager* pm){
   if(sizeList(pm->blocked_processes)+sizeList(pm->ready_processes)+
      (pm->executing_process == -1? 0 : 1) > 0){
     Process* p = NULL;
-    printf("\tScheduling\n");
+    printf("\tScheduling %d %d\n",pm->cpu->used_time, pm->cpu->time_slice);
     if(pm->cpu->used_time >= pm->cpu->time_slice){
       printf("ewqeqw\n");
       p=pm->runSchedulingPolicy(pm);
@@ -151,6 +151,7 @@ void blockExecutingProcessManager(ProcessManager* pm){
   updateProcessCPUProcessManager(pm->cpu, p);
   p->state = Blocked;
   *(p->pc)+=1;
+  p->cpu_usage+=1;
   pm->executing_process = -1;
 }
 void finishExecutingProcessManager(ProcessManager* pm){
@@ -159,8 +160,8 @@ void finishExecutingProcessManager(ProcessManager* pm){
   freeArrayList(p->program);
   removeIndexArrayList(pm->pcb_table, pm->executing_process);
   pm->executing_process = -1;
-  pm->cpu->time_slice =0;
-  pm->cpu->used_time =0;
+  pm->cpu->time_slice=0;
+  pm->cpu->used_time=0;
   pm->sum_return_time += pm->time;
   pm->num_finished += 1;
 }
