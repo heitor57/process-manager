@@ -4,6 +4,7 @@
 #include "ArrayList.h"
 #include "utils.h"
 #include "CPU.h"
+#include <errno.h>
 bool integerEquals(const Object o1,const Object o2){
   int* v1= (int*)o1;
   int* v2= (int*)o2;
@@ -39,12 +40,16 @@ void freeProcessManager(ProcessManager* pm){
 }
 /* #include "Scheduler.h" */
 void stepTimeProcessManager(ProcessManager* pm){
+  // simulate one time unit step in the process manager
+  // Check if the system is empty of processes
   if(sizeList(pm->blocked_processes)+sizeList(pm->ready_processes)+
      (pm->executing_process == UNDEFINED? 0 : 1) > 0){
     Process* p = NULL;
     printf("\tScheduling %d %d\n",pm->cpu->used_time, pm->cpu->time_slice);
+    // check if the time slice exceeded
     if(pm->cpu->used_time >= pm->cpu->time_slice){
       printf("ewqeqw\n");
+      // Next process to be executed
       p=pm->runSchedulingPolicy(pm);
     }
     printf("%p %d\n",p,pm->executing_process);
@@ -61,7 +66,7 @@ void stepTimeProcessManager(ProcessManager* pm){
   }
   pm->time+=1;
 }
-
+// new process and put it in all structures of ProcessManager
 Process* newProcessProcessManager(ProcessManager* pm){
   Process* p = initProcess();
   p->init_time = pm->time;
@@ -70,7 +75,7 @@ Process* newProcessProcessManager(ProcessManager* pm){
   insertAtEndList(pm->ready_processes,&(p->id));
   return p;
 }
-
+// request new PID
 int newPIDProcessManager(ProcessManager* pm){
   pm->last_process_id++;
   return pm->last_process_id;
@@ -83,7 +88,7 @@ int newPIDProcessManager(ProcessManager* pm){
 /*   addByIndexArrayList(pm->pcb_table, p, p->id); */
 /* } */
 
-
+// upate process data in PCB table after some execution at CPU
 void updateProcessCPUProcessManager(CPU* cpu, Process* p){
   *(p->pc)=cpu->pc;
   p->var=cpu->var;
@@ -91,22 +96,23 @@ void updateProcessCPUProcessManager(CPU* cpu, Process* p){
     /* printf("DIFF E E E%p %p\n",cpu->program,p->program); */
     freeArrayList(p->program);
     p->program=cpu->program;
+    cpu->used_time=0;
+    cpu->time_slice=0;
   }
 }
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   Process* executing_process=NULL;
   if(p!=NULL && p->id != pm->executing_process){
     if(pm->executing_process != UNDEFINED){
+      // get process
       executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
+      // update it data
       updateProcessCPUProcessManager(pm->cpu,executing_process);
-      /* *(executing_process->pc)=pm->cpu->pc; */
-      /* executing_process->var=pm->cpu->var; */
-      /* executing_process->program=pm->cpu->program; */
-      /* } */
-      /*     if(pm->executing_process != UNDEFINED){ */
+      // change state
       executing_process->state = Ready;
       insertAtEndList(pm->ready_processes,&(executing_process->id));
     }
+    // load other process in CPU
     pm->cpu->pc=*(p->pc);
     pm->cpu->var=p->var;
     pm->cpu->program=p->program;
@@ -117,11 +123,9 @@ void contextSwitchProcessManager(ProcessManager* pm, Process* p){
 }
 void forkProcessManager(ProcessManager* pm, Process* p){
   Process* newProcess = initProcess();
-  /* printf("Ewwqe%d \n",p->pc); */
   *(newProcess->pc) = *(p->pc)+1;
   newProcess->var = p->var;
   newProcess->program = duplicateStringArrayList(p->program);
-  /* printf("EEE\n"); */
   newProcess->priority = p->priority;
   newProcess->state = Ready;
   newProcess->init_time = pm->time;
@@ -202,15 +206,18 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
   char* token = strtok(instruction, " ");
   char instruction_type=token[0];
   ArgumentCPU arg;
-  /* bool is_allowed_instruction = false; */
+  // check if is a allowed instruction
   if (strlen(token) != 1 || !isAllowedInstructionCPU(instruction_type)){
-    return 1;
+    fprintf(stderr,"Not allowed instruction \"%s\"\n",token);
+    exit(EPERM);
+    /* return 1; */
   }
   bool need_arg = needArgInstructionCPU(instruction_type);
   if(!need_arg){
     if(strlen(instruction)!=1){
-      printf("Instruction in incorrect format\n");
-      return 1;
+      fprintf(stderr,"Instruction in incorrect format \"%s\"\n",token);
+      exit(EPERM);
+      /* return 1; */
     }else{
       return execInstructionCPU(cpu,instruction_type,&arg, pm);
     }
@@ -236,21 +243,10 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
 }
 
 void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
-  /* printf("eqweqwe\n"); */
-  /* printf("%d %d\n",cpu->pc, 1); */
-  /* printf("%d %d\n",1, sizeArrayList(cpu->program)); */
-  /* for(int i =0 ; i<sizeArrayList(cpu->program); i++) */
-  /*   { */
-  /*     printf("|%s|\n",(char*)getArrayList(cpu->program,i)); */
-  /*   } */
-  
-  /* printf("%d %d\n",cpu->pc, sizeArrayList(cpu->program)); */
   char* instruction = (char*)getArrayList(cpu->program,cpu->pc);
-  /* printf("\t\t%s\n",instruction); */
   int size = strlen(instruction)+1;
+  // copy instruction in memory
   char* instruction_copy = malloc(size*sizeof(char));
-  /* if(cpu->pc>0) */
-  /* printf("%p |%s| |%s|\n",instruction_copy, instruction, (char*)getArrayList(cpu->program,cpu->pc-1)); */
   strcpy(instruction_copy, instruction);
   printf("\t\t%s\n",instruction_copy);
   parseAndExecInstructionCPU(cpu,instruction_copy,pm);

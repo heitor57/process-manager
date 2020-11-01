@@ -51,9 +51,9 @@ Process* round_robin(ProcessManager* pm){
 
 /* } */
 
-Process* shortest_remaining_time(ProcessManager* pm){
-  return NULL;
-}
+/* Process* shortest_remaining_time(ProcessManager* pm){ */
+/*   return NULL; */
+/* } */
 
 /* Process* priority_remaining_time(ProcessManager* pm){ */
 /* } */

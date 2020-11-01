@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "utils.h"
 #include "Process.h"
+#include <errno.h>
 
 Process* initProcess(){
   Process* p = malloc(sizeof(Process));
@@ -14,7 +15,7 @@ Process* initProcess(){
   p->pc = malloc(sizeof(int));
   /* p->pc = malloc(sizeof(int)); */
   if (p==NULL){
-    exit(1);
+    exit(EPERM);
   }
   return p;
 }
@@ -38,8 +39,6 @@ bool equalsProcess(const Object o1,const Object o2){
 
 
 Process* loadProgramProcess(Process* p, char* file_name) {
-  /* if(p->pc == NULL) */
-  /*   p->pc= malloc(sizeof(int)); */
   *(p->pc)=0;
   p->program = load_program(file_name);
   return p;

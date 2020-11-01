@@ -4,6 +4,7 @@
 #include "ArrayList.h"
 #define UTILS_BUFFER_MAX_SIZE 4096
 
+
 ArrayList load_program(char *file_name){
   int buffer_length = UTILS_BUFFER_MAX_SIZE;
   char buffer[buffer_length];

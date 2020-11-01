@@ -7,14 +7,9 @@
 typedef struct ProcessManager ProcessManager;
 struct ProcessManager{
   CPU* cpu;
-  int time;
-  int executing_process;
-  List* ready_processes;
+  int time, executing_process,last_process_id,sum_return_time,num_finished;
   ArrayList pcb_table;
-  List* blocked_processes;
-  int last_process_id;
-  int sum_return_time;
-  int num_finished;
+  List* ready_processes,*blocked_processes;
   Process* (*runSchedulingPolicy)(ProcessManager*);
 };
 
