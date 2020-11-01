@@ -130,11 +130,13 @@ void forkProcessManager(ProcessManager* pm, Process* p){
 }
 
 void unblockFirstProcessManager(ProcessManager* pm) {
-  Node *node = getFirstNodeList(pm->blocked_processes);
-  Process* process = (Process*)node->object;
-  process->state = Ready;
-  insertAtEndList(pm->ready_processes, process);
-  removeFromStartList(pm->blocked_processes);
+  if(sizeList(pm->blocked_processes)>0){
+    Node *node = getFirstNodeList(pm->blocked_processes);
+    Process* process = (Process*)node->object;
+    process->state = Ready;
+    insertAtEndList(pm->ready_processes, process);
+    removeFromStartList(pm->blocked_processes);
+  }
 }
 
 void blockExecutingProcessManager(ProcessManager* pm){
