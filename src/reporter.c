@@ -27,7 +27,7 @@ void printState(ProcessManager* pm) {
   printf("****************************************************************\\\\\n\n");
 
   printf("TEMPO ATUAL: %d\n", pm->time);
-  if(pm->executing_process!=-1){
+  if(pm->executing_process!=UNDEFINED){
     printf("PROCESSO EXECUTANDO:\n");
     printf("PID\tPPID\tPrioridade\tValor\tTempo início\tCPU usada até o momento\n");
     Process* executing_process = (Process*)getArrayList(pm->pcb_table, pm->executing_process);

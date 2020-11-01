@@ -20,11 +20,11 @@ ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManage
   }
   pm->time=0;
   pm->cpu=initCPU();
-  pm->executing_process=-1;
+  pm->executing_process=UNDEFINED;
   pm->ready_processes=createList(integerEquals);
   pm->pcb_table=createArrayList(NULL);
   pm->blocked_processes=createList(integerEquals);
-  pm->last_process_id=-1;
+  pm->last_process_id=UNDEFINED;
   pm->runSchedulingPolicy=runSchedulingPolicy;
   pm->sum_return_time = 0;
   pm->num_finished = 0;
@@ -40,7 +40,7 @@ void freeProcessManager(ProcessManager* pm){
 /* #include "Scheduler.h" */
 void stepTimeProcessManager(ProcessManager* pm){
   if(sizeList(pm->blocked_processes)+sizeList(pm->ready_processes)+
-     (pm->executing_process == -1? 0 : 1) > 0){
+     (pm->executing_process == UNDEFINED? 0 : 1) > 0){
     Process* p = NULL;
     printf("\tScheduling %d %d\n",pm->cpu->used_time, pm->cpu->time_slice);
     if(pm->cpu->used_time >= pm->cpu->time_slice){
@@ -48,12 +48,12 @@ void stepTimeProcessManager(ProcessManager* pm){
       p=pm->runSchedulingPolicy(pm);
     }
     printf("%p %d\n",p,pm->executing_process);
-    if(p!=NULL || pm->executing_process!=-1){
+    if(p!=NULL || pm->executing_process!=UNDEFINED){
       printf("\tContext switch\n");
       contextSwitchProcessManager(pm,p);
       printf("\tSearch, decode and run\n");
       searchDecodeRunCPU(pm->cpu,pm);
-      if(pm->executing_process!=-1){
+      if(pm->executing_process!=UNDEFINED){
         Process* pt = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
         pt->cpu_usage++;
       }
@@ -96,14 +96,14 @@ void updateProcessCPUProcessManager(CPU* cpu, Process* p){
 void contextSwitchProcessManager(ProcessManager* pm, Process* p){
   Process* executing_process=NULL;
   if(p!=NULL && p->id != pm->executing_process){
-    if(pm->executing_process != -1){
+    if(pm->executing_process != UNDEFINED){
       executing_process = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
       updateProcessCPUProcessManager(pm->cpu,executing_process);
       /* *(executing_process->pc)=pm->cpu->pc; */
       /* executing_process->var=pm->cpu->var; */
       /* executing_process->program=pm->cpu->program; */
       /* } */
-      /*     if(pm->executing_process != -1){ */
+      /*     if(pm->executing_process != UNDEFINED){ */
       executing_process->state = Ready;
       insertAtEndList(pm->ready_processes,&(executing_process->id));
     }
@@ -152,14 +152,14 @@ void blockExecutingProcessManager(ProcessManager* pm){
   p->state = Blocked;
   *(p->pc)+=1;
   p->cpu_usage+=1;
-  pm->executing_process = -1;
+  pm->executing_process = UNDEFINED;
 }
 void finishExecutingProcessManager(ProcessManager* pm){
   Process* p = getArrayList(pm->pcb_table, pm->executing_process);
   free(p->pc);
   freeArrayList(p->program);
   removeIndexArrayList(pm->pcb_table, pm->executing_process);
-  pm->executing_process = -1;
+  pm->executing_process = UNDEFINED;
   pm->cpu->time_slice=0;
   pm->cpu->used_time=0;
   pm->sum_return_time += pm->time;
@@ -190,7 +190,7 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
     cpu->pc += arg->integer;
     break;
   case 'R':
-    cpu->pc = -1;
+    cpu->pc = UNDEFINED;
     cpu->var = rand();
     /* printf("EEE %s\n",arg->string); */
     cpu->program=load_program(arg->string);

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "utils.h"
 #include "Process.h"
+
 Process* initProcess(){
   Process* p = malloc(sizeof(Process));
   p->cpu_usage=0;
@@ -9,7 +10,7 @@ Process* initProcess(){
   p->init_time=0;
   p->priority=0;
   p->pc=0;
-  p->parent_id=-1;
+  p->parent_id=UNDEFINED;
   p->pc = malloc(sizeof(int));
   /* p->pc = malloc(sizeof(int)); */
   if (p==NULL){

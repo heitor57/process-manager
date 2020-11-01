@@ -11,12 +11,12 @@
 #include "utils.h"
 #include "Scheduler.h"
 #include "reporter.h"
-
+#define BUFFER_MAX_SIZE 80
 int main(void){
   srand(time(NULL));
   int fd[2];
   int childpid,rchildpid;
-  char readbuffer[80];
+  char readbuffer[BUFFER_MAX_SIZE];
   Process *init_process;
   /* int  */
   pipe(fd);

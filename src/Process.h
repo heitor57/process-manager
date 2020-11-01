@@ -2,7 +2,7 @@
 #define PROCESS_H
 #include <stdbool.h>
 #include "ArrayList.h"
-
+#define UNDEFINED -1
 typedef enum State State;
 enum State {Blocked, Executing, Ready};
 typedef struct{
