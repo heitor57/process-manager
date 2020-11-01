@@ -182,9 +182,12 @@ void blockExecutingProcessManager(ProcessManager* pm){
 }
 void finishExecutingProcessManager(ProcessManager* pm){
   Process* p = getArrayList(pm->pcb_table, pm->executing_process);
-  free(p->pc);
-  freeArrayList(p->program);
-  removeIndexArrayList(pm->pcb_table, pm->executing_process);
+  /* free(p->pc); */
+  /* freeArrayList(p->program); */
+  /* pm->pcb_table */
+  freeProcess(p);
+  cleanIndexArrayList(pm->pcb_table,pm->executing_process);
+  /* removeIndexArrayList(pm->pcb_table, pm->executing_process); */
   pm->executing_process = UNDEFINED;
   pm->cpu->time_slice=0;
   pm->cpu->used_time=0;

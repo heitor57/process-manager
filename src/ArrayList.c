@@ -146,20 +146,19 @@ Object removeIndexArrayList(const ArrayList list, const int index){
   o = list->data[index];
 
   (list->size)--;
-  if (index < lastIndex)
-  {
+  if (index < lastIndex){
     memmove(list->data + index, list->data + index + 1, objectSize * (lastIndex - index));
-	newSize = list->size;
-	newCapacity = list->currentCapacity - ARRAYLIST_CAPACITY_DELTA;
-	if (newCapacity > newSize)
-	{
-	  list->data = (Object *)realloc(list->data, objectSize * newCapacity);
-	  list->currentCapacity = newCapacity;
-	}
+    newSize = list->size;
+    newCapacity = list->currentCapacity - ARRAYLIST_CAPACITY_DELTA;
+    if (newCapacity > newSize){
+      list->data = (Object *)realloc(list->data, objectSize * newCapacity);
+      list->currentCapacity = newCapacity;
+    }
   }
 
   return o;
 }
+
 
 ArrayList duplicateStringArrayList(const ArrayList list){
   ArrayList new_list;
@@ -173,11 +172,15 @@ ArrayList duplicateStringArrayList(const ArrayList list){
     string_size = (strlen(list->data[i])+1)*sizeof(char);
     /* printf("1QQQ %d\n",string_size); */
     new_list->data[i]= malloc(string_size);
-  /* printf("2QQQ\n"); */
+    /* printf("2QQQ\n"); */
     /* sizeof(list->data[i]) */
     memcpy(new_list->data[i],list->data[i],string_size);
-  /* printf("3QQQ\n"); */
+    /* printf("3QQQ\n"); */
   }
   /* memcpy(new_list->data,list->data,objectSize*list->size); */
   return new_list;
+}
+
+void cleanIndexArrayList(const ArrayList list, const int index){
+  list->data[index] = NULL;
 }
