@@ -19,8 +19,8 @@ ArrayList load_program(char *file_name){
   /*arraylist = createArrayList();*/
 
   while(fgets(buffer,buffer_length,program_file) != NULL){
-    buffer[strlen(buffer)-1] = '\0';
-    aux = malloc(sizeof(char)*strlen(buffer)+1); 
+    buffer[strcspn(buffer,"\n")] = '\0';
+    aux = malloc(sizeof(char)*(strlen(buffer)+1)); 
     strcpy(aux, buffer);
     addArrayList(program, aux);
   }

@@ -12,8 +12,6 @@
 /* } */
 
 Process* round_robin(ProcessManager* pm){
-  pm->cpu->used_time=0;
-  pm->cpu->time_slice=1;
   /* if(sizeList(pm->ready_processes)==0){ */
   /*   if(pm->executing_process!=-1) */
   /*     return ((Process*)getArrayList(pm->pcb_table,pm->executing_process)); */
@@ -21,12 +19,18 @@ Process* round_robin(ProcessManager* pm){
   /*     return NULL; */
   /* } */
   if(sizeList(pm->ready_processes)>0){
+    pm->cpu->used_time=0;
+    pm->cpu->time_slice=1;
     int* ready_pid = (int*)getByIndexList(pm->ready_processes, 0);
     return ((Process*)getArrayList(pm->pcb_table,*ready_pid));
   }else{
     if(pm->executing_process==-1){
+      pm->cpu->used_time=0;
+      pm->cpu->time_slice=0;
       return NULL;
     }else{
+      pm->cpu->used_time=0;
+      pm->cpu->time_slice=1;
       return ((Process*)getArrayList(pm->pcb_table,pm->executing_process));
     }
   }

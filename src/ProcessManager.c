@@ -239,11 +239,18 @@ void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
   /* printf("eqweqwe\n"); */
   /* printf("%d %d\n",cpu->pc, 1); */
   /* printf("%d %d\n",1, sizeArrayList(cpu->program)); */
+  /* for(int i =0 ; i<sizeArrayList(cpu->program); i++) */
+  /*   { */
+  /*     printf("|%s|\n",(char*)getArrayList(cpu->program,i)); */
+  /*   } */
+  
   /* printf("%d %d\n",cpu->pc, sizeArrayList(cpu->program)); */
   char* instruction = (char*)getArrayList(cpu->program,cpu->pc);
   /* printf("\t\t%s\n",instruction); */
   int size = strlen(instruction)+1;
   char* instruction_copy = malloc(size*sizeof(char));
+  /* if(cpu->pc>0) */
+  /* printf("%p |%s| |%s|\n",instruction_copy, instruction, (char*)getArrayList(cpu->program,cpu->pc-1)); */
   strcpy(instruction_copy, instruction);
   printf("\t\t%s\n",instruction_copy);
   parseAndExecInstructionCPU(cpu,instruction_copy,pm);
