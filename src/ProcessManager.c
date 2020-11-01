@@ -43,9 +43,11 @@ void stepTimeProcessManager(ProcessManager* pm){
      (pm->executing_process == -1? 0 : 1) > 0){
     Process* p = NULL;
     printf("\tScheduling\n");
-    if(pm->cpu->used_time >= pm->cpu->time_slice)
+    if(pm->cpu->used_time >= pm->cpu->time_slice){
+      printf("ewqeqw\n");
       p=pm->runSchedulingPolicy(pm);
-    /* printf("%p %d\n",p,pm->executing_process); */
+    }
+    printf("%p %d\n",p,pm->executing_process);
     if(p!=NULL || pm->executing_process!=-1){
       printf("\tContext switch\n");
       contextSwitchProcessManager(pm,p);
@@ -145,7 +147,10 @@ void blockExecutingProcessManager(ProcessManager* pm){
                   );
   pm->cpu->time_slice=0;
   pm->cpu->used_time=0;
-  ((Process*)getArrayList(pm->pcb_table,pm->executing_process))->state = Blocked;
+  Process* p = ((Process*)getArrayList(pm->pcb_table,pm->executing_process));
+  updateProcessCPUProcessManager(pm->cpu, p);
+  p->state = Blocked;
+  *(p->pc)+=1;
   pm->executing_process = -1;
 }
 void finishExecutingProcessManager(ProcessManager* pm){
@@ -154,6 +159,8 @@ void finishExecutingProcessManager(ProcessManager* pm){
   freeArrayList(p->program);
   removeIndexArrayList(pm->pcb_table, pm->executing_process);
   pm->executing_process = -1;
+  pm->cpu->time_slice =0;
+  pm->cpu->used_time =0;
   pm->sum_return_time += pm->time;
   pm->num_finished += 1;
 }
