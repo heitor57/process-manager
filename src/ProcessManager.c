@@ -203,7 +203,7 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
   return 0;
 }
 int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
-  char* token = strtok(instruction, " ");
+  char* token = strtok(instruction, " "), *token_aux;
   char instruction_type=token[0];
   ArgumentCPU arg;
   // check if is a allowed instruction
@@ -223,6 +223,11 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
     }
   }else{
     token = strtok(NULL, " ");
+    token_aux = strtok(NULL, " ");
+    if(token_aux != NULL){
+      fprintf(stderr,"More arguments than expected \"%s\"\n",token_aux);
+      exit(EPERM);
+    }
     /* if(token[0] != ' '){ */
     /*   printf("Missing space between instruction and argument\n"); */
     /*   return 1; */
