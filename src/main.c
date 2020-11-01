@@ -19,6 +19,7 @@ int main(void){
   int childpid,rchildpid;
   char readbuffer[BUFFER_MAX_SIZE];
   Process *init_process;
+  bool to_end = false;
   /* int  */
   pipe(fd);
   if(pipe(fd) < 0) {
@@ -42,7 +43,7 @@ int main(void){
     init_process = newProcessProcessManager(pm);
     loadProgramProcess(init_process,"init");
     // Request input
-    while(strcmp(readbuffer,"T")){
+    while(!to_end){
       // read from pipe
       read(fd[0], readbuffer, sizeof(readbuffer));
       input_string_size=strlen(readbuffer);
@@ -74,6 +75,7 @@ int main(void){
         case 'T':
           // Finish and print turnaround time
           // ========================= Reporter ==================================
+          to_end=true;
           if((rchildpid = fork()) == -1){
             perror("fork");
             exit(errno);
@@ -96,13 +98,16 @@ int main(void){
   }else{
     // ========================= Commander ==================================
     close(fd[0]);
-    while(strcmp(readbuffer,"T")){
+    while(true){
       fgets(readbuffer,sizeof(readbuffer),stdin);
       readbuffer[strlen(readbuffer)-1] = 0;
       /* printf("\nENVIANDO: %s\n",readbuffer); */
       write(fd[1], readbuffer, strlen(readbuffer)+1);
       sleep(1.0);
+      if(!strcmp(readbuffer,"T"))
+        break;
     }
+    close(fd[1]);
   }
   wait(0);
   return 0;

@@ -33,9 +33,31 @@ ProcessManager* initProcessManager(Process* (*runSchedulingPolicy)(ProcessManage
 }
 
 void freeProcessManager(ProcessManager* pm){
-  if(pm!=NULL)
+  if(pm!=NULL){
+    Node *node = getFirstNodeList(pm->ready_processes);
+    Process* process;
+    int* pid;
+    while(node != NULL){
+      pid = ((int*)node->object);
+      process = (Process*)getArrayList(pm->pcb_table, *pid);
+      freeProcess(process);
+      node = node->next;
+    }
+    node=getFirstNodeList(pm->blocked_processes);
+    while(node != NULL){
+      pid = ((int*)node->object);
+      process = (Process*)getArrayList(pm->pcb_table, *pid);
+      freeProcess(process);
+      node = node->next;
+    }
+    if(pm->executing_process!=UNDEFINED)
+      freeProcess((Process*)getArrayList(pm->pcb_table, pm->executing_process));
+    freeList(pm->ready_processes);
+    freeList(pm->blocked_processes);
+    freeArrayList(pm->pcb_table);
+    freeCPU(pm->cpu);
     free(pm);
-  else
+  }else
     perror("Error in free Process Manager");
 }
 /* #include "Scheduler.h" */
