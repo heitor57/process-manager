@@ -21,6 +21,8 @@ Process* initProcess(){
 }
 
 void freeProcess(Process* p){
+  for(int i =0;i<sizeArrayList(p->program);i++)
+    free(getArrayList(p->program, i));
   freeArrayList(p->program);
   if(p->pc!=NULL)
     free(p->pc);

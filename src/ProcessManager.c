@@ -51,7 +51,7 @@ void freeProcessManager(ProcessManager* pm){
       node = node->next;
     }
     if(pm->executing_process!=UNDEFINED)
-      freeProcess((Process*)getArrayList(pm->pcb_table, pm->executing_process));
+      freeProcess(getArrayList(pm->pcb_table, pm->executing_process));
     freeList(pm->ready_processes);
     freeList(pm->blocked_processes);
     freeArrayList(pm->pcb_table);
@@ -116,6 +116,9 @@ void updateProcessCPUProcessManager(CPU* cpu, Process* p){
   p->var=cpu->var;
   if(p->program != cpu->program){
     /* printf("DIFF E E E%p %p\n",cpu->program,p->program); */
+
+    for(int i =0;i<sizeArrayList(p->program);i++)
+      free(getArrayList(p->program, i));
     freeArrayList(p->program);
     p->program=cpu->program;
     cpu->used_time=0;
