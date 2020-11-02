@@ -194,7 +194,7 @@ void finishExecutingProcessManager(ProcessManager* pm){
   pm->executing_process = UNDEFINED;
   pm->cpu->time_slice=0;
   pm->cpu->used_time=0;
-  pm->sum_return_time += pm->time;
+  pm->sum_return_time += pm->time-p->init_time;
   pm->num_finished += 1;
 }
 
