@@ -15,9 +15,6 @@ CPU* initCPU(){
 }
 
 void freeCPU(CPU* cpu){
-  // deliberately not freeing, because that the program has 2 owners double free can happen and others
-  /* if(cpu->program!=NULL) */
-  /*   free(cpu->program); */
   if(cpu!=NULL)
     free(cpu);
 }
