@@ -72,11 +72,9 @@ void stepTimeProcessManager(ProcessManager* pm){
     printf("\tScheduling %d %d\n",pm->cpu->used_time, pm->cpu->time_slice);
     // check if the time slice exceeded
     if(pm->cpu->used_time >= pm->cpu->time_slice){
-      printf("ewqeqw\n");
       // Next process to be executed
       p=pm->runSchedulingPolicy(pm);
     }
-    printf("%p %d\n",p,pm->executing_process);
     if(p!=NULL || pm->executing_process!=UNDEFINED){
       printf("\tContext switch\n");
       contextSwitchProcessManager(pm,p);
