@@ -69,16 +69,16 @@ void stepTimeProcessManager(ProcessManager* pm){
   if(sizeList(pm->blocked_processes)+sizeList(pm->ready_processes)+
      (pm->executing_process == UNDEFINED? 0 : 1) > 0){
     Process* p = NULL;
-    printf("\tScheduling %d %d\n",pm->cpu->used_time, pm->cpu->time_slice);
+    /* printf("\tScheduling %d %d\n",pm->cpu->used_time, pm->cpu->time_slice); */
     // check if the time slice exceeded
     if(pm->cpu->used_time >= pm->cpu->time_slice){
       // Next process to be executed
       p=pm->runSchedulingPolicy(pm);
     }
     if(p!=NULL || pm->executing_process!=UNDEFINED){
-      printf("\tContext switch\n");
+      /* printf("\tContext switch\n"); */
       contextSwitchProcessManager(pm,p);
-      printf("\tSearch, decode and run\n");
+      /* printf("\tSearch, decode and run\n"); */
       searchDecodeRunCPU(pm->cpu,pm);
       if(pm->executing_process!=UNDEFINED){
         Process* pt = (Process*)getArrayList(pm->pcb_table,pm->executing_process);
@@ -188,7 +188,7 @@ void finishExecutingProcessManager(ProcessManager* pm){
 
 
 
-int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessManager* pm){
+void execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessManager* pm){
   switch(instruction_type){
   case 'S':
     cpu->var = arg->integer;
@@ -215,9 +215,8 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
     cpu->program=load_program(arg->string);
     break;
   }
-  return 0;
 }
-int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
+void parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
   char* token = strtok(instruction, " "), *token_aux;
   char instruction_type=token[0];
   ArgumentCPU arg;
@@ -225,16 +224,14 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
   if (strlen(token) != 1 || !isAllowedInstructionCPU(instruction_type)){
     fprintf(stderr,"Not allowed instruction \"%s\"\n",token);
     exit(EPERM);
-    /* return 1; */
   }
   bool need_arg = needArgInstructionCPU(instruction_type);
   if(!need_arg){
     if(strlen(instruction)!=1){
       fprintf(stderr,"Instruction in incorrect format \"%s\"\n",token);
       exit(EPERM);
-      /* return 1; */
     }else{
-      return execInstructionCPU(cpu,instruction_type,&arg, pm);
+      execInstructionCPU(cpu,instruction_type,&arg, pm);
     }
   }else{
     token = strtok(NULL, " ");
@@ -254,7 +251,7 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
       arg.string = token;
       break;
     }
-    return execInstructionCPU(cpu, instruction_type, &arg, pm);
+    execInstructionCPU(cpu, instruction_type, &arg, pm);
   }
 }
 
@@ -264,7 +261,7 @@ void searchDecodeRunCPU(CPU *cpu, ProcessManager* pm){
   // copy instruction in memory
   char* instruction_copy = malloc(size*sizeof(char));
   strcpy(instruction_copy, instruction);
-  printf("\t\t%s\n",instruction_copy);
+  /* printf("\t\t%s\n",instruction_copy); */
   parseAndExecInstructionCPU(cpu,instruction_copy,pm);
   cpu->pc++;
   cpu->used_time++;
