@@ -168,16 +168,10 @@ ArrayList duplicateStringArrayList(const ArrayList list){
   new_list->size = list->size;
   int string_size;
   for(int i=0; i < list->size;i++){
-    /* printf("%s\n",list->data[i]); */
     string_size = (strlen(list->data[i])+1)*sizeof(char);
-    /* printf("1QQQ %d\n",string_size); */
     new_list->data[i]= malloc(string_size);
-    /* printf("2QQQ\n"); */
-    /* sizeof(list->data[i]) */
     memcpy(new_list->data[i],list->data[i],string_size);
-    /* printf("3QQQ\n"); */
   }
-  /* memcpy(new_list->data,list->data,objectSize*list->size); */
   return new_list;
 }
 

@@ -17,8 +17,6 @@ ArrayList load_program(char *file_name){
     perror("error opening file");
     return NULL;
   }
- /*Create array list*/
-  /*arraylist = createArrayList();*/
 
   while(fgets(buffer,buffer_length,program_file) != NULL){
     buffer[strcspn(buffer,"\n")] = '\0';
@@ -30,11 +28,3 @@ ArrayList load_program(char *file_name){
   
   return program;
 }
-
-/* void unblockFirstProcessManager(List* blocked_processes, List* ready_processes) { */
-/*   Node *node = getFirstNodeList(blocked_processes); */
-/*   Process* process = node->object; */
-/*   process->state = Ready; */
-/*   insertAtEndList(ready_processes, process); */
-/*   removeFromStartList(blocked_processes); */
-/* } */

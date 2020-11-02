@@ -5,7 +5,7 @@
 
 #undef Object
 #define Object void*
-/* typedef void* Object; */
+
 
 struct node {
     Object object;
@@ -35,4 +35,5 @@ Object getByIndexList(List* li, int pos);
 int getObjectList(List* li, Object o);
 Node* getFirstNodeList(List* li);
 int removeObjectList(List* li, Object o);
+
 #endif

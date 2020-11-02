@@ -12,7 +12,6 @@ void printProcessList(ArrayList pcb_table,List* process_list) {
     while(node != NULL){
       pid = ((int*)node->object);
       process = (Process*)getArrayList(pcb_table, *pid);
-      /* process = ((Process*)node->object); */
       printf("%d\t%d\t%d\t\t%d\t%d\t\t%d\n", process->id, process->parent_id, 
              process->priority, process->var, 
              process->init_time, process->cpu_usage);
@@ -35,8 +34,6 @@ void printState(ProcessManager* pm) {
            executing_process->priority, executing_process->var, 
            executing_process->init_time, executing_process->cpu_usage);
   }
-//   printf("BLOQUEADO:\n");
-//   printf("Fila processos bloqueados:\n");
   if(sizeList(pm->blocked_processes)){
     printf("PROCESSOS BLOQUEADOS:\n");
     printProcessList(pm->pcb_table,pm->blocked_processes);

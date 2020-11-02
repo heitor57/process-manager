@@ -5,6 +5,8 @@
 #include "utils.h"
 #include "CPU.h"
 #include <errno.h>
+
+
 bool integerEquals(const Object o1,const Object o2){
   int* v1= (int*)o1;
   int* v2= (int*)o2;
@@ -60,7 +62,7 @@ void freeProcessManager(ProcessManager* pm){
   }else
     perror("Error in free Process Manager");
 }
-/* #include "Scheduler.h" */
+
 void stepTimeProcessManager(ProcessManager* pm){
   // simulate one time unit step in the process manager
   // Check if the system is empty of processes
@@ -103,19 +105,11 @@ int newPIDProcessManager(ProcessManager* pm){
   return pm->last_process_id;
 }
 
-/* void addProcessProcessManager(ProcessManager* pm, Process* p){ */
-/*   p->id=newPIDProcessManager(pm); */
-/*   pm->last_process_id=p->id; */
-/*   insertAtEndList(pm->ready_processes, &(p->id)); */
-/*   addByIndexArrayList(pm->pcb_table, p, p->id); */
-/* } */
-
 // upate process data in PCB table after some execution at CPU
 void updateProcessCPUProcessManager(CPU* cpu, Process* p){
   *(p->pc)=cpu->pc;
   p->var=cpu->var;
   if(p->program != cpu->program){
-    /* printf("DIFF E E E%p %p\n",cpu->program,p->program); */
 
     for(int i =0;i<sizeArrayList(p->program);i++)
       free(getArrayList(p->program, i));
@@ -185,12 +179,8 @@ void blockExecutingProcessManager(ProcessManager* pm){
 }
 void finishExecutingProcessManager(ProcessManager* pm){
   Process* p = getArrayList(pm->pcb_table, pm->executing_process);
-  /* free(p->pc); */
-  /* freeArrayList(p->program); */
-  /* pm->pcb_table */
   freeProcess(p);
   cleanIndexArrayList(pm->pcb_table,pm->executing_process);
-  /* removeIndexArrayList(pm->pcb_table, pm->executing_process); */
   pm->executing_process = UNDEFINED;
   pm->cpu->time_slice=0;
   pm->cpu->used_time=0;
@@ -224,7 +214,6 @@ int execInstructionCPU(CPU* cpu,char instruction_type,ArgumentCPU *arg, ProcessM
   case 'R':
     cpu->pc = UNDEFINED;
     cpu->var = rand();
-    /* printf("EEE %s\n",arg->string); */
     cpu->program=load_program(arg->string);
     break;
   }
@@ -256,10 +245,6 @@ int parseAndExecInstructionCPU(CPU* cpu,char* instruction, ProcessManager* pm){
       fprintf(stderr,"More arguments than expected \"%s\"\n",token_aux);
       exit(EPERM);
     }
-    /* if(token[0] != ' '){ */
-    /*   printf("Missing space between instruction and argument\n"); */
-    /*   return 1; */
-    /* } */
     switch(instruction_type){
     case 'S':
     case 'A':

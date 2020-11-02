@@ -20,7 +20,6 @@ void freeList(List* li){
         while((li->start) != NULL){
             node = li->start;
             li->start = li->start->next;
-            /* free(node->object); */
             free(node);
         }
         free(li);

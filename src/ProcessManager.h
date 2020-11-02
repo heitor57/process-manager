@@ -4,6 +4,7 @@
 #include "Process.h"
 #include "List.h"
 #include "ArrayList.h"
+
 typedef struct ProcessManager ProcessManager;
 struct ProcessManager{
   CPU* cpu;

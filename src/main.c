@@ -12,7 +12,9 @@
 #include "Scheduler.h"
 #include "reporter.h"
 #include <errno.h>
+
 #define BUFFER_MAX_SIZE 80
+
 int main(void){
   srand(time(NULL));
   int fd[2];
@@ -20,7 +22,6 @@ int main(void){
   char readbuffer[BUFFER_MAX_SIZE];
   Process *init_process;
   bool to_end = false;
-  /* int  */
   pipe(fd);
   if(pipe(fd) < 0) {
     perror("pipe");
@@ -35,7 +36,6 @@ int main(void){
     // ========================= Process Manager ==================================
     close(fd[1]);
     dup2(fd[0],STDIN_FILENO);
-    /* printf("Initializating process manager\n"); */
     // Init Process Manager
     ProcessManager* pm = initProcessManager(round_robin);
     int input_string_size;
@@ -53,7 +53,6 @@ int main(void){
         switch(readbuffer[0]){
         case 'Q':
           // Execute one instruction in CPU
-          /* printf("FORK: %d\n",pm->time); */
           stepTimeProcessManager(pm);
           break;
         case 'U':
@@ -88,11 +87,11 @@ int main(void){
             exit(0);
           }
           break;
-        /* default: */
-        /*   printf("%s is a invalid instruction\n",readbuffer); */
+        default:
+           fprintf(stderr, "%s is a invalid instruction\n",readbuffer);
         }
       }else{
-        /* printf("%s is a invalid instruction, pass in the correct format\n",readbuffer); */
+        fprintf(stderr, "%s is a invalid instruction, pass in the correct format\n",readbuffer);
       }
     }
     freeProcessManager(pm);
@@ -103,7 +102,6 @@ int main(void){
     while(true){
       fgets(readbuffer,sizeof(readbuffer),stdin);
       readbuffer[strlen(readbuffer)-1] = 0;
-      /* printf("\nENVIANDO: %s\n",readbuffer); */
       write(fd[1], readbuffer, strlen(readbuffer)+1);
       sleep(1.0);
       if(!strcmp(readbuffer,"T"))

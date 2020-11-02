@@ -14,7 +14,6 @@ Process* initProcess(){
   p->init_time=0;
   p->priority=0;
   p->pc = malloc(sizeof(int));
-  /* p->pc = malloc(sizeof(int)); */
   if (p==NULL){
     exit(EPERM);
   }
