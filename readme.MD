@@ -1,11 +1,13 @@
+### Process Manager
+
 1. Run Makefile with:
 ```
 $ Make
 ```
 
-2. Run the executable with 
+2. Run the executable with: 
 ```
-./process-manager
+$ ./process-manager
 ```
 
 Ps: The input files must be in the same folder of executable file.
