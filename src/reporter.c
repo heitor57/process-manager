@@ -6,8 +6,8 @@
 
 void printProcessList(ArrayList pcb_table,List* process_list) {
     Node *node = getFirstNodeList(process_list);
-    Process* process;
-    int* pid;
+    Process* process=NULL;
+    int* pid=NULL;
     printf("PID\tPPID\tPrioridade\tValor\tTempo início\tCPU usada até o momento\n");
     while(node != NULL){
       pid = ((int*)node->object);
@@ -21,7 +21,7 @@ void printProcessList(ArrayList pcb_table,List* process_list) {
 }
 
 void printState(ProcessManager* pm) {
-
+  Process* executing_process=NULL;
   printf("****************************************************************\n");
   printf("Estado do sistema:\n");
   printf("****************************************************************\\\\\n\n");
@@ -30,7 +30,7 @@ void printState(ProcessManager* pm) {
   if(pm->executing_process!=UNDEFINED){
     printf("PROCESSO EXECUTANDO:\n");
     printf("PID\tPPID\tPrioridade\tValor\tTempo início\tCPU usada até o momento\n");
-    Process* executing_process = (Process*)getArrayList(pm->pcb_table, pm->executing_process);
+    executing_process = (Process*)getArrayList(pm->pcb_table, pm->executing_process);
     printf("%d\t%d\t%d\t\t%d\t%d\t\t%d\n", executing_process->id, executing_process->parent_id, 
            executing_process->priority, executing_process->var, 
            executing_process->init_time, executing_process->cpu_usage);

@@ -6,12 +6,13 @@
 
 Process* initProcess(){
   Process* p = malloc(sizeof(Process));
+  p->id=UNDEFINED;
+  p->parent_id=UNDEFINED;
+  p->var=rand();
   p->cpu_usage=0;
   p->state=Ready;
   p->init_time=0;
   p->priority=0;
-  p->pc=0;
-  p->parent_id=UNDEFINED;
   p->pc = malloc(sizeof(int));
   /* p->pc = malloc(sizeof(int)); */
   if (p==NULL){
